@@ -98,14 +98,6 @@ public class MainActivity extends AppCompatActivity {
         // replaces the original fragment with new fragment using the replace method
         fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("main screen" ).commit();
 
-        /*
-        // this is included here as a possible future modification
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked( true );
-        // Set action bar title
-        setTitle( menuItem.getTitle());
-         */
-
         // Close the navigation drawer
         drawerLayout.closeDrawers();
     }

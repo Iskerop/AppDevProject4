@@ -39,8 +39,12 @@ public class HelpFragment extends Fragment {
     public void onViewCreated( @NonNull View view, Bundle savedInstanceState ) {
         super.onViewCreated(view,savedInstanceState);
 
-//        TextView textView = getView().findViewById( R.id.textView3 );
-//        String text = getResources().getString( R.string.quiz_purpose );
-//        textView.setText( HtmlCompat.fromHtml( text, HtmlCompat.FROM_HTML_MODE_LEGACY ) );
+        TextView textView = getView().findViewById( R.id.textView );
+        String text = getResources().getString( R.string.quiz_purpose );
+        textView.setText( HtmlCompat.fromHtml( text, HtmlCompat.FROM_HTML_MODE_LEGACY ) );
+
+        TextView textView2 = getView().findViewById( R.id.textView2 );
+        String text2 = getResources().getString( R.string.how_to_use );
+        textView2.setText( HtmlCompat.fromHtml( text2, HtmlCompat.FROM_HTML_MODE_LEGACY ) );
     }
 }

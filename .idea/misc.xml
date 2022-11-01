@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23796296296296296" />
-        <entry key="app/src/main/res/layout/fragment_help.xml" value="0.23055555555555557" />
+        <entry key="app/src/main/res/layout/fragment_help.xml" value="0.21686746987951808" />
         <entry key="app/src/main/res/layout/fragment_past_quizzes.xml" value="0.23055555555555557" />
         <entry key="app/src/main/res/layout/fragment_splash_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_start_new_quiz.xml" value="0.23055555555555557" />

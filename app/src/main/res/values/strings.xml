@@ -6,18 +6,22 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="quiz_purpose">
-        <h3>What does this app do?</h3>\n\nThis is a quiz application that allows a user to test their knowledge on the capitals of the 50 states in the US.
-        The quiz is composed of 6 randomly selected questions each asking the user to identify a given state’s capital with 3 possible answer choices (only one correct answer).
-        The app will record correct and incorrect questions as the user swipes left to the next question. Once, the user has answered the last question and swiped-left,
-        the last screen will be displayed showing the result of the current quiz to the user.
-        From this point, the app will store the date and time of the quiz and its result, so it can be saved under the ”Past Quizzes” section.
+        <![CDATA[
+            <h3>What does this app do?</h3>\n\nThis is a quiz application that allows a user to test their knowledge on the capitals of the 50 states in the US.
+            The quiz is composed of 6 randomly selected questions each asking the user to identify a given state’s capital with 3 possible answer choices (only one correct answer).
+            The app will record correct and incorrect questions as the user swipes left to the next question. Once, the user has answered the last question and swiped-left,
+            the last screen will be displayed showing the result of the current quiz to the user.
+            From this point, the app will store the date and time of the quiz and its result, so it can be saved under the ”Past Quizzes” section.
+        ]]>
 	</string>
 
     <string name="how_to_use">
-        <h3>How to use the app?</h3> \n\n Use the navigation drawer which will present the user with a variety of options to navigate to different screens that include
-        starting a “New Quiz,” looking at “Past Quizzes,” and a “Help Menu”. When the user is taking a quiz, the user can select an answer by pressing on one
-        of the radio buttons, and the user can go to the next question by swiping left. The “current quiz results” screen is accessed when the final left-swipe
-        is made when the user is on the last question. The user can access the “Past Quizzes” screen via navigation drawer or from the “current quiz results” screen.
-        On the “Past Quizzes” screen, it displays a list of all the past quizzes taken ordered by date/time from newest to oldest.
+        <![CDATA[
+            <h3>How to use the app?</h3> \n\n Use the navigation drawer which will present the user with a variety of options to navigate to different screens that include
+            starting a “New Quiz,” looking at “Past Quizzes,” and a “Help Menu”. When the user is taking a quiz, the user can select an answer by pressing on one
+            of the radio buttons, and the user can go to the next question by swiping left. The “current quiz results” screen is accessed when the final left-swipe
+            is made when the user is on the last question. The user can access the “Past Quizzes” screen via navigation drawer or from the “current quiz results” screen.
+            On the “Past Quizzes” screen, it displays a list of all the past quizzes taken ordered by date/time from newest to oldest.
+        ]]>
 	</string>
 </resources>
