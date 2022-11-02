@@ -81,8 +81,8 @@ public class StartNewQuizFragment extends Fragment {
 
         // this is the second textview in quiz_question.xml file that asks the user what capital for
         // the asked "state".
-        TextView titleView = getView().findViewById(R.id.textView5); // the "state"
-        titleView.setText(countries[quizNum]);
+        TextView capitalTextView = getView().findViewById(R.id.textView5); // the "state"
+        capitalTextView.setText(countries[quizNum] + "?");
     } // onViewCreated
 
 //    // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a job lead, asynchronously.

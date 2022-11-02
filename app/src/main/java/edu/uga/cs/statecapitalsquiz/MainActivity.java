@@ -134,4 +134,17 @@ public class MainActivity extends AppCompatActivity {
         } // if
         return super.onOptionsItemSelected(item);
     } // onOptionsItemSelected
+
+    // use this method in FinalScoreFragment when the button is pressed to display "Past Quizzes Fragment"
+    public void replaceFragment(String dateAndTime, double score) {
+        Fragment fragment = null;
+        try {
+            fragment = PastQuizzesFragment.newInstance(dateAndTime, score);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("Start New Quiz Fragment").commit();
+    }
 } // MainActivity
