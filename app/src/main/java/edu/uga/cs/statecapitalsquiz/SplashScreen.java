@@ -15,31 +15,32 @@ public class  SplashScreen extends Fragment {
 
     public SplashScreen() {
         // Required empty public constructor
-    }
+    } // SplashScreen
 
-    // main screen is the fragment
-    public static SplashScreen newInstance() {
-        SplashScreen fragment = new SplashScreen();
-        return fragment;
-    }
+    // Prob don't need
+//    public static SplashScreen newInstance() {
+//        SplashScreen fragment = new SplashScreen();
+//        return fragment;
+//    }
 
     // layout of the main screen
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment with the fragment_splash_screen.xml file
+        // Splash screen is the first (default) fragment displayed.
         return inflater.inflate( R.layout.fragment_splash_screen, container, false );
-    }
+    } // onCreateView
 
     @Override
     public void onViewCreated( @NonNull View view, Bundle savedInstanceState ) {
         super.onViewCreated( view, savedInstanceState );
-    }
+    } // onViewCreated
 
     // setting the title in the action bar
     @Override
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle( getResources().getString( R.string.app_name ) );
-    }
-}
+    } // onResume
+} // SplashScreen
