@@ -55,14 +55,14 @@ public class QuizHistoryData {
     // Retrieve all quiz questions and return them as a List.
     // This is how we restore persistent objects stored as rows in the job leads table in the database.
     // For each retrieved row, we create a new JobLead (Java POJO object) instance and add it to the list.
-    public List<Quiz> retrieveHistory() {
-        ArrayList<Quiz> quizzes = new ArrayList<>();
+    public List<QuizHistory> retrieveHistory() {
+        ArrayList<QuizHistory> quizzes = new ArrayList<>();
         Cursor cursor = null;
         int columnIndex;
 
         try {
             // Execute the select query and get the Cursor to iterate over the retrieved rows
-            cursor = db.query( QuizDBHelper.TABLE_QUIZZES, allColumns,
+            cursor = db.query( QuizHistoryDBHelper.TABLE_QUIZZES, allColumns,
                     null, null, null, null, null );
 
             // collect all job leads into a List
@@ -73,21 +73,29 @@ public class QuizHistoryData {
                     if( cursor.getColumnCount() >= 6) {
 
                         // get all attribute values of this job lead
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_ID );
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_ID );
                         long id = cursor.getLong( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_STATE );
-                        String state = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_CAPITAL );
-                        String capital = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_FIRST );
-                        String first = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_SECOND );
-                        String second = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_CAPITAL_SINCE);
-                        String capitalSince = cursor.getString(columnIndex);
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_DATE );
+                        String date = cursor.getString( columnIndex );
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_ONE );
+                        String one = cursor.getString( columnIndex );
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_TWO );
+                        String two = cursor.getString( columnIndex );
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_THREE );
+                        String three = cursor.getString( columnIndex );
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_FOUR);
+                        String four = cursor.getString(columnIndex);
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_FIVE);
+                        String five = cursor.getString(columnIndex);
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_SIX);
+                        String six = cursor.getString(columnIndex);
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_RESULT);
+                        String result = cursor.getString(columnIndex);
+                        columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_NUM_ANSWERED);
+                        String numAnswered = cursor.getString(columnIndex);
 
                         // create a new JobLead object and set its state to the retrieved values
-                        Quiz quiz = new Quiz( state, capital, first, second, capitalSince );
+                        QuizHistory quiz = new QuizHistory(date, one, two, three, four, five, six, result, numAnswered);
                         quiz.setId(id); // set the id (the primary key) of this object
                         // add it to the list
                         quizzes.add( quiz );
@@ -115,28 +123,32 @@ public class QuizHistoryData {
     }
 
     // Store a new quiz question in the database.
-    public Quiz storeQuizHistory(Quiz quiz ) {
+    public QuizHistory storeQuizHistory(QuizHistory quiz ) {
 
         // Prepare the values for all of the necessary columns in the table
         // and set their values to the variables of the JobLead argument.
         // This is how we are providing persistence to a JobLead (Java object) instance
         // by storing it as a new row in the database table representing job leads.
         ContentValues values = new ContentValues();
-        values.put(QuizDBHelper.QUIZZES_COLUMN_STATE, quiz.getState());
-        values.put(QuizDBHelper.QUIZZES_COLUMN_CAPITAL, quiz.getCapital() );
-        values.put(QuizDBHelper.QUIZZES_COLUMN_FIRST, quiz.getFirstCity() );
-        values.put(QuizDBHelper.QUIZZES_COLUMN_SECOND, quiz.getSecondCity() );
-        values.put(QuizDBHelper.QUIZZES_COLUMN_CAPITAL_SINCE, quiz.getCapitalSince());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_DATE, quiz.getDate());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_ONE, quiz.getFirstQuest() );
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_TWO, quiz.getSecondQuest() );
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_THREE, quiz.getThirdQuest() );
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_FOUR, quiz.getFourthQuest());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_FIVE, quiz.getFifthQuest());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_QUEST_SIX, quiz.getSixthQuest());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_RESULT, quiz.getResult());
+        values.put(QuizHistoryDBHelper.QUIZZES_COLUMN_NUM_ANSWERED, quiz.getNumAnswered());
 
         // Insert the new row into the database table;
         // The id (primary key) is automatically generated by the database system
         // and returned as from the insert method call.
-        long id = db.insert( QuizDBHelper.TABLE_QUIZZES, null, values );
+        long id = db.insert( QuizHistoryDBHelper.TABLE_QUIZZES, null, values );
 
         // store the id (the primary key) in the JobLead instance, as it is now persistent
         quiz.setId( id );
 
-        Log.d( DEBUG_TAG, "Stored new quiz with id: " + String.valueOf( quiz.getId() ) );
+        Log.d( DEBUG_TAG, "Stored new quiz history with id: " + String.valueOf( quiz.getId() ) );
 
         return quiz;
     }
