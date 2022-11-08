@@ -7,6 +7,7 @@ public class Quiz {
     private String capital;
     private String firstCity;
     private String secondCity;
+    private String capitalSince;
 
     /**
      * This class (a POJO) represents a single quiz, including the id, .
@@ -20,15 +21,17 @@ public class Quiz {
         this.capital = null;
         this.firstCity = null;
         this.secondCity = null;
+        this.capitalSince = null;
     }
 
     // custom constructor
-    public Quiz(String state, String capital, String firstCity, String secondCity ) {
+    public Quiz(String state, String capital, String firstCity, String secondCity, String capitalSince ) {
         this.id = -1;  // the primary key id will be set by a setter method
         this.state = state;
         this.capital = capital;
         this.firstCity = firstCity;
         this.secondCity = secondCity;
+        this.capitalSince = capitalSince;
     }
 
     public long getId()
@@ -79,6 +82,14 @@ public class Quiz {
     public void setSecondCity(String secondCity)
     {
         this.secondCity = secondCity;
+    }
+
+    public String getCapitalSince() {
+        return capitalSince;
+    }
+
+    public void setCapitalSince(String capitalSince) {
+        this.capitalSince = capitalSince;
     }
 
     public String toString()

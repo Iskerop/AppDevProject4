@@ -31,6 +31,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     public static final String QUIZZES_COLUMN_CAPITAL = "capital";
     public static final String QUIZZES_COLUMN_FIRST = "first";
     public static final String QUIZZES_COLUMN_SECOND = "second";
+    public static final String QUIZZES_COLUMN_CAPITAL_SINCE = "capitalSince";
 
     // This is a reference to the only instance for the helper.
     private static QuizDBHelper helperInstance;
@@ -44,7 +45,8 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     + QUIZZES_COLUMN_STATE + " TEXT, "
                     + QUIZZES_COLUMN_CAPITAL + " TEXT, "
                     + QUIZZES_COLUMN_FIRST + " TEXT, "
-                    + QUIZZES_COLUMN_SECOND + " TEXT"
+                    + QUIZZES_COLUMN_SECOND + " TEXT, "
+                    + QUIZZES_COLUMN_CAPITAL_SINCE + " TEXT"
                     + ")";
 
     // Note that the constructor is private!

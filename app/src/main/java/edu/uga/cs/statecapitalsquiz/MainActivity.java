@@ -7,13 +7,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.opencsv.CSVReader;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * The main activity class.
@@ -65,6 +70,41 @@ public class MainActivity extends AppCompatActivity {
             selectDrawerItem(menuItem); //
             return true;
         }); // setNavigationItemSelectedListener
+
+
+        try {
+//            TextView testing = findViewById(R.id.testingView);
+
+            // Open the CSV data file in the assets folder
+            InputStream in_s = getAssets().open( "state_capitals.csv" );
+
+            // read the CSV data
+            CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
+            String[] nextRow;
+//            String export = "";
+            nextRow = reader.readNext(); //clear the first row of CSV
+            QuizData qd = new QuizData(getApplicationContext());
+            qd.open(); //open db for writing
+
+            while( ( nextRow = reader.readNext() ) != null ) {
+
+                Quiz quiz = new Quiz(nextRow[0], nextRow[1], nextRow[2], nextRow[3], nextRow[5]);
+                qd.storeQuizQuestion(quiz);
+
+                // nextRow[] is an array of values from the line
+//                for (int i = 0; i < nextRow.length; i++)
+//                {
+//                    export += nextRow[i] + ", ";
+//                }
+//                export += "\n";
+            }
+//            testing.setText(export);
+            qd.close(); //close db
+
+        } catch (Exception e) {
+            Log.e( TAG, e.toString() );
+        }
+
     } // onCreate
 
     // this method controls what happens after the user selection of the navigation drawer

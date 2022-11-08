@@ -9,16 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 
 public class StartNewQuizFragment extends Fragment {
@@ -81,7 +73,7 @@ public class StartNewQuizFragment extends Fragment {
 
         // this is the second textview in quiz_question.xml file that asks the user what capital for
         // the asked "state".
-        TextView capitalTextView = getView().findViewById(R.id.textView5); // the "state"
+        TextView capitalTextView = getView().findViewById(R.id.stateName); // the "state"
         capitalTextView.setText(countries[quizNum] + "?");
     } // onViewCreated
 

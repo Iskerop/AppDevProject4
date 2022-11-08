@@ -1,6 +1,5 @@
 package edu.uga.cs.statecapitalsquiz;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

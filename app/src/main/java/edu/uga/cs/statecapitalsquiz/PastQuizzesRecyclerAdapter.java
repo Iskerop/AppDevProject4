@@ -49,10 +49,10 @@ public class PastQuizzesRecyclerAdapter
         public PastQuizzesHolder(View itemView ) {
             super( itemView );
 
-            companyName = itemView.findViewById( R.id.companyName );
-            phone = itemView.findViewById( R.id.phone );
-            url = itemView.findViewById( R.id.url );
-            comments = itemView.findViewById( R.id.comments );
+//            companyName = itemView.findViewById( R.id.companyName );
+//            phone = itemView.findViewById( R.id.phone );
+//            url = itemView.findViewById( R.id.url );
+//            comments = itemView.findViewById( R.id.comments );
         } // PastQuizzesHolder constructor
     } // class PastQuizzesHolder
 
