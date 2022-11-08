@@ -1,5 +1,6 @@
 package edu.uga.cs.statecapitalsquiz;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,7 @@ public class PastQuizzesFragment extends Fragment {
         // in the onClick listener of the Save button.
         @Override
         protected Quiz doInBackground( Quiz... quizzes ) {
-            quizData.storeJobLead( quizzes[0] );
+            quizData.storeQuizQuestion( quizzes[0] );
             return quizzes[0];
         }
 

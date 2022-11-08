@@ -3,10 +3,10 @@ package edu.uga.cs.statecapitalsquiz;
 public class Quiz {
 
     private long   id; // primary key
-    private String companyName;
-    private String phone;
-    private String url;
-    private String comments;
+    private String state;
+    private String capital;
+    private String firstCity;
+    private String secondCity;
 
     /**
      * This class (a POJO) represents a single quiz, including the id, .
@@ -16,19 +16,19 @@ public class Quiz {
     public Quiz()
     {
         this.id = -1;
-        this.stateAsked = null;
-        this.phone = null;
-        this.url = null;
-        this.comments = null;
+        this.state = null;
+        this.capital = null;
+        this.firstCity = null;
+        this.secondCity = null;
     }
 
     // custom constructor
-    public Quiz(String companyName, String phone, String url, String comments ) {
+    public Quiz(String state, String capital, String firstCity, String secondCity ) {
         this.id = -1;  // the primary key id will be set by a setter method
-        this.companyName = companyName;
-        this.phone = phone;
-        this.url = url;
-        this.comments = comments;
+        this.state = state;
+        this.capital = capital;
+        this.firstCity = firstCity;
+        this.secondCity = secondCity;
     }
 
     public long getId()
@@ -41,48 +41,48 @@ public class Quiz {
         this.id = id;
     }
 
-    public String getCompanyName()
+    public String getState()
     {
-        return companyName;
+        return state;
     }
 
-    public void setCompanyName(String companyName)
+    public void setState(String state)
     {
-        this.companyName = companyName;
+        this.state = state;
     }
 
-    public String getPhone()
+    public String getCapital()
     {
-        return phone;
+        return capital;
     }
 
-    public void setPhone(String phone)
+    public void setCapital(String capital)
     {
-        this.phone = phone;
+        this.capital = capital;
     }
 
-    public String getUrl()
+    public String getFirstCity()
     {
-        return url;
+        return firstCity;
     }
 
-    public void setUrl(String url)
+    public void setFirstCity(String firstCity)
     {
-        this.url = url;
+        this.firstCity = firstCity;
     }
 
-    public String getComments()
+    public String getSecondCity()
     {
-        return comments;
+        return secondCity;
     }
 
-    public void setComments(String comments)
+    public void setSecondCity(String secondCity)
     {
-        this.comments = comments;
+        this.secondCity = secondCity;
     }
 
     public String toString()
     {
-        return id + ": " + companyName + " " + phone + " " + url + " " + comments;
+        return id + ": " + state + " " + capital + " " + firstCity + " " + secondCity;
     }
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is facilitates storing and restoring job leads stored.
+ * This class is facilitates storing and quiz questions stored.
  */
 public class QuizData {
 
@@ -19,30 +19,30 @@ public class QuizData {
 
     // this is a reference to our database; it is used later to run SQL commands
     private SQLiteDatabase   db;
-    private SQLiteOpenHelper jobLeadsDbHelper;
+    private SQLiteOpenHelper quizDBHelper;
     private static final String[] allColumns = {
             QuizDBHelper.QUIZZES_COLUMN_ID,
-            QuizDBHelper.QUIZZES_COLUMN_NAME,
-            QuizDBHelper.QUIZZES_COLUMN_PHONE,
-            QuizDBHelper.QUIZZES_COLUMN_URL,
-            QuizDBHelper.QUIZZES_COLUMN_COMMENTS
+            QuizDBHelper.QUIZZES_COLUMN_STATE,
+            QuizDBHelper.QUIZZES_COLUMN_CAPITAL,
+            QuizDBHelper.QUIZZES_COLUMN_FIRST,
+            QuizDBHelper.QUIZZES_COLUMN_SECOND
     };
 
     public QuizData(Context context ) {
-        this.jobLeadsDbHelper = QuizDBHelper.getInstance( context );
+        this.quizDBHelper = QuizDBHelper.getInstance( context );
     }
 
     // Open the database
     public void open() {
-        db = jobLeadsDbHelper.getWritableDatabase();
-        Log.d( DEBUG_TAG, "JobLeadsData: db open" );
+        db = quizDBHelper.getWritableDatabase();
+        Log.d( DEBUG_TAG, "QuizData: db open" );
     }
 
     // Close the database
     public void close() {
-        if( jobLeadsDbHelper != null ) {
-            jobLeadsDbHelper.close();
-            Log.d(DEBUG_TAG, "JobLeadsData: db closed");
+        if( quizDBHelper != null ) {
+            quizDBHelper.close();
+            Log.d(DEBUG_TAG, "QuizData: db closed");
         }
     }
 
@@ -51,7 +51,7 @@ public class QuizData {
         return db.isOpen();
     }
 
-    // Retrieve all job leads and return them as a List.
+    // Retrieve all quiz questions and return them as a List.
     // This is how we restore persistent objects stored as rows in the job leads table in the database.
     // For each retrieved row, we create a new JobLead (Java POJO object) instance and add it to the list.
     public List<Quiz> retrieveAllQuizzes() {
@@ -74,13 +74,13 @@ public class QuizData {
                         // get all attribute values of this job lead
                         columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_ID );
                         long id = cursor.getLong( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_NAME );
+                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_STATE );
                         String name = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_PHONE );
+                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_CAPITAL );
                         String phone = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_URL );
+                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_FIRST );
                         String uri = cursor.getString( columnIndex );
-                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_COMMENTS );
+                        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_SECOND );
                         String comments = cursor.getString( columnIndex );
 
                         // create a new JobLead object and set its state to the retrieved values
@@ -110,18 +110,18 @@ public class QuizData {
         return quizzes;
     }
 
-    // Store a new quiz in the database.
-    public Quiz storeJobLead( Quiz quiz ) {
+    // Store a new quiz question in the database.
+    public Quiz storeQuizQuestion(Quiz quiz ) {
 
         // Prepare the values for all of the necessary columns in the table
         // and set their values to the variables of the JobLead argument.
         // This is how we are providing persistence to a JobLead (Java object) instance
         // by storing it as a new row in the database table representing job leads.
         ContentValues values = new ContentValues();
-        values.put(QuizDBHelper.QUIZZES_COLUMN_NAME, quiz.getCompanyName());
-        values.put(QuizDBHelper.QUIZZES_COLUMN_PHONE, quiz.getPhone() );
-        values.put(QuizDBHelper.QUIZZES_COLUMN_URL, quiz.getUrl() );
-        values.put(QuizDBHelper.QUIZZES_COLUMN_COMMENTS, quiz.getComments() );
+        values.put(QuizDBHelper.QUIZZES_COLUMN_STATE, quiz.getState());
+        values.put(QuizDBHelper.QUIZZES_COLUMN_CAPITAL, quiz.getCapital() );
+        values.put(QuizDBHelper.QUIZZES_COLUMN_FIRST, quiz.getFirstCity() );
+        values.put(QuizDBHelper.QUIZZES_COLUMN_SECOND, quiz.getSecondCity() );
 
         // Insert the new row into the database table;
         // The id (primary key) is automatically generated by the database system

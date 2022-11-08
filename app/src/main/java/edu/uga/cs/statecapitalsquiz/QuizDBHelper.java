@@ -27,10 +27,10 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     // This will be useful if we want to change these names later.
     public static final String TABLE_QUIZZES = "quizzes";
     public static final String QUIZZES_COLUMN_ID = "_id";
-    public static final String QUIZZES_COLUMN_NAME = "name";
-    public static final String QUIZZES_COLUMN_PHONE = "phone";
-    public static final String QUIZZES_COLUMN_URL = "url";
-    public static final String QUIZZES_COLUMN_COMMENTS = "comments";
+    public static final String QUIZZES_COLUMN_STATE = "state";
+    public static final String QUIZZES_COLUMN_CAPITAL = "capital";
+    public static final String QUIZZES_COLUMN_FIRST = "first";
+    public static final String QUIZZES_COLUMN_SECOND = "second";
 
     // This is a reference to the only instance for the helper.
     private static QuizDBHelper helperInstance;
@@ -38,13 +38,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     // A Create table SQL statement to create a table for job leads.
     // Note that _id is an auto increment primary key, i.e. the database will
     // automatically generate unique id values as keys.
-    private static final String CREATE_JOBLEADS =
+    private static final String CREATE_QUIZZES =
             "create table " + TABLE_QUIZZES + " ("
                     + QUIZZES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + QUIZZES_COLUMN_NAME + " TEXT, "
-                    + QUIZZES_COLUMN_PHONE + " TEXT, "
-                    + QUIZZES_COLUMN_URL + " TEXT, "
-                    + QUIZZES_COLUMN_COMMENTS + " TEXT"
+                    + QUIZZES_COLUMN_STATE + " TEXT, "
+                    + QUIZZES_COLUMN_CAPITAL + " TEXT, "
+                    + QUIZZES_COLUMN_FIRST + " TEXT, "
+                    + QUIZZES_COLUMN_SECOND + " TEXT"
                     + ")";
 
     // Note that the constructor is private!
@@ -68,7 +68,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     // it does not exist yet.
     @Override
     public void onCreate( SQLiteDatabase db ) {
-        db.execSQL( CREATE_JOBLEADS );
+        db.execSQL( CREATE_QUIZZES );
         Log.d( DEBUG_TAG, "Table " + TABLE_QUIZZES + " created" );
     } // onCreate
 

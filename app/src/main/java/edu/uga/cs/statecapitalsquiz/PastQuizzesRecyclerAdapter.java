@@ -76,10 +76,10 @@ public class PastQuizzesRecyclerAdapter
 
         Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 
-        holder.companyName.setText( quiz.getCompanyName());
-        holder.phone.setText( quiz.getPhone() );
-        holder.url.setText( quiz.getUrl() );
-        holder.comments.setText( quiz.getComments() );
+        holder.companyName.setText( quiz.getState());
+        holder.phone.setText( quiz.getCapital() );
+        holder.url.setText( quiz.getFirstCity() );
+        holder.comments.setText( quiz.getSecondCity() );
     }
 
     @Override
