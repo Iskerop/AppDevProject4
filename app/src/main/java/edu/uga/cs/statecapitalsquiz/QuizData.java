@@ -25,7 +25,8 @@ public class QuizData {
             QuizDBHelper.QUIZZES_COLUMN_STATE,
             QuizDBHelper.QUIZZES_COLUMN_CAPITAL,
             QuizDBHelper.QUIZZES_COLUMN_FIRST,
-            QuizDBHelper.QUIZZES_COLUMN_SECOND
+            QuizDBHelper.QUIZZES_COLUMN_SECOND,
+            QuizDBHelper.QUIZZES_COLUMN_CAPITAL_SINCE
     };
 
     public QuizData(Context context ) {
@@ -69,7 +70,7 @@ public class QuizData {
 
                 while( cursor.moveToNext() ) {
 
-                    if( cursor.getColumnCount() >= 5) {
+                    if( cursor.getColumnCount() >= 6) {
 
                         // get all attribute values of this job lead
                         columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_ID );
@@ -109,6 +110,7 @@ public class QuizData {
             }
         }
         // return a list of retrieved job leads
+        //Log.i("QUIZ DATA", "number of quizzes: " + quizzes.size());
         return quizzes;
     }
 

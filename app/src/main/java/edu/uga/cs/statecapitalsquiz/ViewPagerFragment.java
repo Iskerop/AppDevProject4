@@ -48,7 +48,8 @@ public class ViewPagerFragment extends Fragment {
         ViewPager2 pager = view.findViewById( R.id.viewpager );
 
         // create an adapter for this fragment
-        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
+//        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
+        QuizQPagerAdapter avpAdapter =  new QuizQPagerAdapter(this);
 
         // set the viewPager (pager) with the avpAdapter so we can have values (the slides).
         pager.setAdapter(avpAdapter);

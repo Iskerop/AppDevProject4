@@ -1,6 +1,7 @@
 package edu.uga.cs.statecapitalsquiz;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class QuizQuestionFragment extends Fragment {
-    private static Quiz[] questionList;
+    private List<Quiz> questionList;
 
     //empty constructor
     public QuizQuestionFragment() {
@@ -22,7 +24,7 @@ public class QuizQuestionFragment extends Fragment {
     }
 
     private int questionNum;
-    private List<Long> quizIDs;
+    private ArrayList<Long> quizIDs = new ArrayList<Long>() {};
 
     public static QuizQuestionFragment newInstance(int questionNum) {
         QuizQuestionFragment fragment = new QuizQuestionFragment();
@@ -40,18 +42,21 @@ public class QuizQuestionFragment extends Fragment {
             questionNum = getArguments().getInt("questionNum");
         }
         QuizData qd = new QuizData(getContext());
+        qd.open();
         List<Quiz> quizQuestions = qd.retrieveAllQuizzes();
+        Log.i("RETRIEVE FRAG", String.valueOf(quizQuestions.size()));
 
         for (int i = 0; i < 6; i++) {
             int index = new Random().nextInt(quizQuestions.size());
             Quiz quiz = quizQuestions.get(index);
             long id = quiz.getId();
-            if (quizIDs.contains(id)) {
+            if (quizIDs.size() != 0 && quizIDs.contains(id)) {
                 i = i; //reset this iteration
                 continue;
             }
             quizIDs.add(id);
             quizQuestions.add(quiz);
+            questionList = quizQuestions;
         }
     }
 
@@ -71,9 +76,14 @@ public class QuizQuestionFragment extends Fragment {
         RadioButton cityTwo = view.findViewById(R.id.cityTwo);
         RadioButton cityThree = view.findViewById(R.id.cityThree);
 
-        stateName.setText(questionList[questionNum].getState());
-        cityOne.setText(questionList[questionNum].getCapital());
-        cityTwo.setText(questionList[questionNum].getFirstCity());
-        cityThree.setText(questionList[questionNum].getSecondCity());
+        stateName.setText(questionList.get(questionNum).getState());
+        cityOne.setText(questionList.get(questionNum).getCapital());
+        cityTwo.setText(questionList.get(questionNum).getFirstCity());
+        cityThree.setText(questionList.get(questionNum).getSecondCity());
+    }
+
+    // TEMP shouldn't be hardcoded
+    public static int getNumberOfQuestions() {
+        return 50;
     }
 }
