@@ -1,7 +1,7 @@
 package edu.uga.cs.statecapitalsquiz;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +9,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +29,17 @@ public class QuizQuestionFragment extends Fragment {
     private int questionNum;
     private ArrayList<Long> quizIDs = new ArrayList<Long>() {};
 
-    public static QuizQuestionFragment newInstance(int questionNum) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static Fragment newInstance(int questionNum) {
+
+        if (questionNum == 6) {
+            LocalDateTime instance = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm a");
+            String formattedDateAndTime = formatter.format(instance);
+
+            // place values in here for now (will load this with real values later.)
+            return FinalScoreFragment.newInstance(3, 6, formattedDateAndTime);
+        }
         QuizQuestionFragment fragment = new QuizQuestionFragment();
         Bundle args = new Bundle();
         args.putInt("questionNum", questionNum);
@@ -44,13 +57,12 @@ public class QuizQuestionFragment extends Fragment {
         QuizData qd = new QuizData(getContext());
         qd.open();
         List<Quiz> quizQuestions = qd.retrieveAllQuizzes();
-        Log.i("RETRIEVE FRAG", String.valueOf(quizQuestions.size()));
 
         for (int i = 0; i < 6; i++) {
             int index = new Random().nextInt(quizQuestions.size());
             Quiz quiz = quizQuestions.get(index);
             long id = quiz.getId();
-            if (quizIDs.size() != 0 && quizIDs.contains(id)) {
+            if (quizIDs.contains(id)) {
                 i = i; //reset this iteration
                 continue;
             }
@@ -80,6 +92,8 @@ public class QuizQuestionFragment extends Fragment {
         cityOne.setText(questionList.get(questionNum).getCapital());
         cityTwo.setText(questionList.get(questionNum).getFirstCity());
         cityThree.setText(questionList.get(questionNum).getSecondCity());
+
+
     }
 
     // TEMP shouldn't be hardcoded

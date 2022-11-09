@@ -16,6 +16,8 @@ import java.util.List;
 public class QuizData {
 
     public static final String DEBUG_TAG = "QuizData";
+    private boolean ongoingQuiz = false;
+    private List<Quiz> quizQuestions;
 
     // this is a reference to our database; it is used later to run SQL commands
     private SQLiteDatabase   db;
@@ -139,6 +141,19 @@ public class QuizData {
         Log.d( DEBUG_TAG, "Stored new quiz with id: " + String.valueOf( quiz.getId() ) );
 
         return quiz;
+    }
+
+    public boolean isStoringOngoingQuiz() {
+        return ongoingQuiz;
+    }
+
+    public void setOngoingQuiz(boolean ongoingQuiz) {
+        this.ongoingQuiz = ongoingQuiz;
+    }
+
+    public void storeSelectedQuizQuestions(List<Quiz> quizQuestions) {
+        setOngoingQuiz(true);
+        this.quizQuestions = quizQuestions;
     }
 }
 
