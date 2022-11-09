@@ -13,6 +13,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+// DON"T NEED THIS CLASS ANYMORE
+
 // use position values to indicate which question/answer to display
 public class QuizPagerAdapter extends FragmentStateAdapter {
 

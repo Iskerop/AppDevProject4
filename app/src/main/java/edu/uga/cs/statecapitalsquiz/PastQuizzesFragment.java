@@ -21,7 +21,7 @@ public class PastQuizzesFragment extends Fragment {
     private static final String TAG = "PastQuizzesFragment";
 
     private QuizData quizData = null;
-    private List<Quiz> quizList;
+    private List<QuizQuestion> quizList;
 
     private RecyclerView recyclerView;
     private PastQuizzesRecyclerAdapter recyclerAdapter;
@@ -79,7 +79,7 @@ public class PastQuizzesFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager( layoutManager );
 
-        quizList = new ArrayList<Quiz>();
+        quizList = new ArrayList<QuizQuestion>();
 
         // Create a JobLeadsData instance, since we will need to save a new JobLead to the dn.
         // Note that even though more activites may create their own instances of the JobLeadsData
@@ -99,14 +99,14 @@ public class PastQuizzesFragment extends Fragment {
     }
 
     // This is an AsyncTask class (it extends AsyncTask) to perform DB reading of job leads, asynchronously.
-    private class QuizDBReader extends AsyncTask<Void, List<Quiz>> {
+    private class QuizDBReader extends AsyncTask<Void, List<QuizQuestion>> {
         // This method will run as a background process to read from db.
         // It returns a list of retrieved JobLead objects.
         // It will be automatically invoked by Android, when we call the execute method
         // in the onCreate callback (the job leads review activity is started).
         @Override
-        protected List<Quiz> doInBackground( Void... params ) {
-            List<Quiz> quizList = quizData.retrieveAllQuizzes();
+        protected List<QuizQuestion> doInBackground(Void... params ) {
+            List<QuizQuestion> quizList = quizData.retrieveAllQuizQuestions();
 
             Log.d( TAG, "QuizDBReader: Quizzes retrieved: " + quizList.size() );
 
@@ -118,7 +118,7 @@ public class PastQuizzesFragment extends Fragment {
         // values for the RecyclerView.
         // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute( List<Quiz> quizList ) {
+        protected void onPostExecute( List<QuizQuestion> quizList ) {
             Log.d( TAG, "QuizDBReader: quizList.size(): " + quizList.size() );
             quizList.addAll( quizList );
 
@@ -129,13 +129,13 @@ public class PastQuizzesFragment extends Fragment {
     }
 
     // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a Quiz, asynchronously.
-    public class QuizDBWriter extends AsyncTask<Quiz, Quiz> {
+    public class QuizDBWriter extends AsyncTask<QuizQuestion, QuizQuestion> {
 
         // This method will run as a background process to write into db.
         // It will be automatically invoked by Android, when we call the execute method
         // in the onClick listener of the Save button.
         @Override
-        protected Quiz doInBackground( Quiz... quizzes ) {
+        protected QuizQuestion doInBackground(QuizQuestion... quizzes ) {
             quizData.storeQuizQuestion( quizzes[0] );
             return quizzes[0];
         }
@@ -145,7 +145,7 @@ public class PastQuizzesFragment extends Fragment {
         // That object will be passed as argument to onPostExecute.
         // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute( Quiz quiz ) {
+        protected void onPostExecute( QuizQuestion quiz ) {
             // Update the recycler view to include the new job lead
             quizList.add( quiz );
 

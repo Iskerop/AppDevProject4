@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.opencsv.CSVReader;
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }); // setNavigationItemSelectedListener
 
-
+        // At initialization, app reads the CSV file with 50 states and their capitals (SHOULD BE DONE ASYNCHRONOUSLY)
         try {
 //            TextView testing = findViewById(R.id.testingView);
 
@@ -82,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
             CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
             String[] nextRow;
 //            String export = "";
-            nextRow = reader.readNext(); //clear the first row of CSV
+            nextRow = reader.readNext(); // clear the first row of CSV
             QuizData qd = new QuizData(getApplicationContext());
             qd.open(); //open db for writing
 
             while( ( nextRow = reader.readNext() ) != null ) {
 
-                Quiz quiz = new Quiz(nextRow[0], nextRow[1], nextRow[2], nextRow[3], nextRow[5]);
-                qd.storeQuizQuestion(quiz);
+                QuizQuestion question = new QuizQuestion(nextRow[0], nextRow[1], nextRow[2], nextRow[3], nextRow[5]);
+                qd.storeQuizQuestion(question);
 
                 // nextRow[] is an array of values from the line
 //                for (int i = 0; i < nextRow.length; i++)
@@ -104,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e( TAG, e.toString() );
         }
+
 
     } // onCreate
 

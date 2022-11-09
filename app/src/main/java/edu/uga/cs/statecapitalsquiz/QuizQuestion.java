@@ -1,6 +1,6 @@
 package edu.uga.cs.statecapitalsquiz;
 
-public class Quiz {
+public class QuizQuestion {
 
     private long   id; // primary key
     private String state;
@@ -14,7 +14,7 @@ public class Quiz {
      * The id is -1 if the object has not been persisted in the database yet, and
      * the db table's primary key value, if it has been persisted. Can be changed as neccessary because don't know if this is correct
      */
-    public Quiz()
+    public QuizQuestion()
     {
         this.id = -1;
         this.state = null;
@@ -25,7 +25,8 @@ public class Quiz {
     }
 
     // custom constructor
-    public Quiz(String state, String capital, String firstCity, String secondCity, String capitalSince ) {
+    public QuizQuestion(String state, String capital, String firstCity, String secondCity, String capitalSince ) {
+        // initializing class variables
         this.id = -1;  // the primary key id will be set by a setter method
         this.state = state;
         this.capital = capital;

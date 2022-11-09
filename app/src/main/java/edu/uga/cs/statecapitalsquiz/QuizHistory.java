@@ -12,6 +12,7 @@ public class QuizHistory {
     private String result;
     private String numAnswered;
 
+    // default constructor
     public QuizHistory() {
         this.id = -1;
         this.date = null;

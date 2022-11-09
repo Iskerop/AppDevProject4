@@ -12,12 +12,13 @@ import androidx.annotation.NonNull;
 
 import android.widget.TextView;
 
+// DON"T NEED THIS CLASS ANYMORE
 
 public class StartNewQuizFragment extends Fragment {
 
     // Array of states in the U.S.
     // temporary for now b/c database hasn't been created yet.
-    private static final String[] countries = {
+    private static final String[] states = {
             "Georgia",
             "Florida",
             "Alabama",
@@ -74,7 +75,7 @@ public class StartNewQuizFragment extends Fragment {
         // this is the second textview in quiz_question.xml file that asks the user what capital for
         // the asked "state".
         TextView capitalTextView = getView().findViewById(R.id.stateName); // the "state"
-        capitalTextView.setText(countries[quizNum] + "?");
+        capitalTextView.setText(states[quizNum] + "?");
     } // onViewCreated
 
 //    // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a job lead, asynchronously.
@@ -147,7 +148,7 @@ public class StartNewQuizFragment extends Fragment {
 
         // helps with deciding how many question we want to display to the user
         public static int getNumberOfQuestions() {
-            return countries.length; // 6 questions (6 screens to slide)
+            return states.length; // 6 questions (6 screens to slide)
         } // getNumberOfVersions
 
     } // StartNewQuizFragment

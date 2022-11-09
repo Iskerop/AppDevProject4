@@ -23,19 +23,19 @@ public class PastQuizzesRecyclerAdapter
 
     private final Context context;
 
-    private List<Quiz> values;
-    private List<Quiz> originalValues;
+    private List<QuizQuestion> values;
+    private List<QuizQuestion> originalValues;
 
-    public PastQuizzesRecyclerAdapter(Context context, List<Quiz> jobLeadList ) {
+    public PastQuizzesRecyclerAdapter(Context context, List<QuizQuestion> jobLeadList ) {
         this.context = context;
         this.values = jobLeadList;
-        this.originalValues = new ArrayList<Quiz>( jobLeadList );
+        this.originalValues = new ArrayList<QuizQuestion>( jobLeadList );
     } // PastQuizzesRecyclerAdapter
 
     // reset the originalValues to the current contents of values
     public void sync()
     {
-        originalValues = new ArrayList<Quiz>( values );
+        originalValues = new ArrayList<QuizQuestion>( values );
     }
 
     // The adapter must have a ViewHolder class to "hold" one item to show.
@@ -72,7 +72,7 @@ public class PastQuizzesRecyclerAdapter
     @Override
     public void onBindViewHolder(PastQuizzesHolder holder, int position ) {
 
-        Quiz quiz = values.get( position );
+        QuizQuestion quiz = values.get( position );
 
         Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 

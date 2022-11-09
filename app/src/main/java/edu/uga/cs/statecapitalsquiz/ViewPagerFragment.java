@@ -6,15 +6,25 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This class creates a fragment that has a viewpager2 widget that will control the
  * swiping of pages which in this case are the questions in the quiz.
  */
 public class ViewPagerFragment extends Fragment {
+
+    public List<QuizQuestion> questionList = new ArrayList<>();
+    private int questionNum;
+    private ArrayList<Long> questionIDs = new ArrayList<Long>() {};
+    public static final String DEBUG_TAG = "ViewPagerFragment";
 
     public ViewPagerFragment() {
         // Required empty public constructor
@@ -29,6 +39,42 @@ public class ViewPagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            // get the question number from the bundle
+            questionNum = getArguments().getInt("questionNum");
+        } // if
+        QuizData qd = new QuizData(getContext()); //
+        qd.open(); // open the database so we can  retrieve all the quiz questions
+        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
+        Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
+
+        // Randomly select 6 questions with no duplicates
+        for (int i = 0; i < 6; i++) {
+
+            // chooses a random question from the list of question
+            int index = new Random().nextInt(quizQuestions.size()); // gets a random number between 0(inclusive) and the number passed in this argument(n), exclusive.
+            QuizQuestion question = quizQuestions.get(index);
+
+            // check the question id
+            long id = question.getId();
+
+            // checks the questionIds list and make sure there are no duplicates
+            if (questionIDs.contains(id)) {
+                // when duplicate is found
+                i = i; // reset this iteration and choose a different question
+                continue;
+            } // if
+            Log.d(DEBUG_TAG, "Actual Quiz Question: " + question);
+            questionIDs.add(id); // store the id's of the questions that we are going to use in the quiz
+
+            // DO WE NEED THIS?
+//            quizQuestions.add(question);
+//            questionList = quizQuestions;
+            questionList.add(question); // should be 6 questions
+            Log.d(DEBUG_TAG, "All quizList: " + questionList);
+            //
+        } // for
     } // onCreate
 
     @Override
@@ -49,7 +95,7 @@ public class ViewPagerFragment extends Fragment {
 
         // create an adapter for this fragment
 //        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
-        QuizQPagerAdapter avpAdapter =  new QuizQPagerAdapter(this);
+        QuizQPagerAdapter avpAdapter =  new QuizQPagerAdapter(this , questionList);
 
         // set the viewPager (pager) with the avpAdapter so we can have values (the slides).
         pager.setAdapter(avpAdapter);
