@@ -1,8 +1,10 @@
 package edu.uga.cs.statecapitalsquiz;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -11,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +37,8 @@ public class ViewPagerFragment extends Fragment {
 
     // single instance of database class
     private QuizData quizQuestionsData = null;
+    // single instance of quiz history database class
+    private QuizHistoryData quizHistoryData = null;
 
     // gain access to viewpager when view has already been created (so that is why we are in the
     // onViewCreated method).
@@ -60,6 +66,10 @@ public class ViewPagerFragment extends Fragment {
         quizQuestionsData = new QuizData(getActivity());
         quizQuestionsData.open(); //open database for reading full list of questions
 
+        // retrieve instance of QuizHistoryData
+        quizHistoryData = new QuizHistoryData(getActivity());
+        quizHistoryData.open();
+
         // execute retrieval of job leads in an asynchronous way
         new QuizQuestionDBReader().execute();
 
@@ -67,12 +77,6 @@ public class ViewPagerFragment extends Fragment {
             // get the question number from the bundle
             questionNum = getArguments().getInt("questionNum");
         } // if
-        QuizData qd = new QuizData(getContext()); //
-        qd.open(); // open the database so we can  retrieve all the quiz questions
-        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
-        //Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
-
-
     } // onCreate
 
     @Override
@@ -87,14 +91,9 @@ public class ViewPagerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         // gain access to viewpager when view has already been created (so that is why we are in the
         // onViewCreated method).
         pager = view.findViewById( R.id.viewpager );
-
-        // create an adapter for this fragment
-//        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
 
     } // onViewCreated
 
@@ -107,6 +106,7 @@ public class ViewPagerFragment extends Fragment {
             return quizQuestionList;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(List<QuizQuestion> questionsList) {
             Log.d(DEBUG_TAG, "onPostExecute: questionsList.size(): " + questionsList.size());
@@ -136,14 +136,44 @@ public class ViewPagerFragment extends Fragment {
                 selectedQuestionList.add(question); // should be 6 questions
                 //Log.d(DEBUG_TAG, "All quizList: " + questionList);
             } // for
-
+            //create adapter after the selectedQuestionList has been generated
             avpAdapter =  new QuizQPagerAdapter(getActivity(), selectedQuestionList);
 
             // set the viewPager (pager) with the avpAdapter so we can have values (the slides).
             pager.setAdapter(avpAdapter);
             // get instance of our adapter with the custom class we made "AndroidVersionsPagerAdapter"
             pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        } // onPostExecute
 
+            LocalDateTime instance = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm a");
+            String formattedDateAndTime = formatter.format(instance);
+
+            // create initial QuizHistory object for entry into database
+            QuizHistory qh = new QuizHistory(formattedDateAndTime,
+                    String.valueOf(selectedQuestionList.get(0).getId()),
+                    String.valueOf(selectedQuestionList.get(1).getId()),
+                    String.valueOf(selectedQuestionList.get(2).getId()),
+                    String.valueOf(selectedQuestionList.get(3).getId()),
+                    String.valueOf(selectedQuestionList.get(4).getId()),
+                    String.valueOf(selectedQuestionList.get(5).getId()), null, 0);
+
+            new QuizHistoryDBWriter().execute(qh);
+        } // onPostExecute
+    } //quizQuestionDBReader
+
+    public class QuizHistoryDBWriter extends AsyncTask<QuizHistory, QuizHistory> {
+
+        // creating a new quizHistory entry and setting initial values
+        @Override
+        protected QuizHistory doInBackground(QuizHistory... quizHistories) {
+            quizHistoryData.storeQuizHistory(quizHistories[0]);
+            return quizHistories[0];
+        }
+
+        @Override
+        protected void onPostExecute(QuizHistory quizHistory) {
+            Log.d("QuizHistoryDBWriter", "onPostExecute: QuizHistory entry created: " + quizHistory);
+        }
     }
+
 } // ViewPagerFragment

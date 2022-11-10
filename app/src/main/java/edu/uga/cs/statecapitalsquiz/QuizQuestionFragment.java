@@ -131,8 +131,6 @@ public class QuizQuestionFragment extends Fragment {
             String choice3 = answerChoices.get(2);
             cityThree.setText(choice3);
 
-
-
             cityOne.setOnClickListener(onRadioButtonClicked);
             cityTwo.setOnClickListener(onRadioButtonClicked);
             cityThree.setOnClickListener(onRadioButtonClicked);

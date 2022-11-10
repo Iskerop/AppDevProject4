@@ -92,7 +92,7 @@ public class QuizHistoryData {
                         columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_RESULT);
                         String result = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex( QuizHistoryDBHelper.QUIZZES_COLUMN_NUM_ANSWERED);
-                        String numAnswered = cursor.getString(columnIndex);
+                        int numAnswered = cursor.getInt(columnIndex);
 
                         // create a new JobLead object and set its state to the retrieved values
                         QuizHistory quiz = new QuizHistory(date, one, two, three, four, five, six, result, numAnswered);
