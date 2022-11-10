@@ -90,7 +90,7 @@ public class QuizQuestionFragment extends Fragment {
         return inflater.inflate(R.layout.quiz_question, container, false);
     }
 
-    // set the quiz question information for the appropriate views
+    // sets quiz question information for the appropriate views
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
