@@ -25,6 +25,7 @@ public class ViewPagerFragment extends Fragment {
     private int questionNum;
     private ArrayList<String> questionStateNames = new ArrayList<String>() {};
     public static final String DEBUG_TAG = "ViewPagerFragment";
+    private QuizData quizQuestionsData = null;
 
     public ViewPagerFragment() {
         // Required empty public constructor
@@ -40,39 +41,46 @@ public class ViewPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            // get the question number from the bundle
-            questionNum = getArguments().getInt("questionNum");
-        } // if
-        QuizData qd = new QuizData(getContext()); //
-        qd.open(); // open the database so we can  retrieve all the quiz questions
-        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
-        //Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
+        // retrieve instance of QuizData
+        quizQuestionsData = new QuizData(getActivity());
+        quizQuestionsData.open(); //open database for reading full list of questions
 
-        int iterations = 6;
+        // execute retrieval of job leads in an asynchronous way
+        new QuizQuestionDBReader().execute();
 
-        // Randomly select 6 questions with no duplicates
-        for (int i = 0; i < iterations; i++) {
-
-            // chooses a random question from the list of question
-            int index = new Random().nextInt(quizQuestions.size()); // gets a random number between 0(inclusive) and the number passed in this argument(n), exclusive.
-            QuizQuestion question = quizQuestions.get(index);
-
-            // check the question id
-            String stateName = question.getState();
-            Log.d(DEBUG_TAG, "Quiz Question State Name: " + stateName);
-            // checks the questionIds list and make sure there are no duplicates
-            if (questionStateNames.contains(stateName)) {
-                Log.d(DEBUG_TAG, "DUPLICATE STATE ");
-                // when duplicate is found
-                iterations++; // do another iteration of the while loop and skip adding it to the list
-                continue;
-            } // if
-            Log.d(DEBUG_TAG, "Actual Quiz Question: " + question);
-            questionStateNames.add(stateName);
-            questionList.add(question); // should be 6 questions
-            //Log.d(DEBUG_TAG, "All quizList: " + questionList);
-        } // for
+//        if (getArguments() != null) {
+//            // get the question number from the bundle
+//            questionNum = getArguments().getInt("questionNum");
+//        } // if
+//        QuizData qd = new QuizData(getContext()); //
+//        qd.open(); // open the database so we can  retrieve all the quiz questions
+//        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
+//        //Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
+//
+//        int iterations = 6;
+//
+//        // Randomly select 6 questions with no duplicates
+//        for (int i = 0; i < iterations; i++) {
+//
+//            // chooses a random question from the list of question
+//            int index = new Random().nextInt(quizQuestions.size()); // gets a random number between 0(inclusive) and the number passed in this argument(n), exclusive.
+//            QuizQuestion question = quizQuestions.get(index);
+//
+//            // check the question id
+//            String stateName = question.getState();
+//            Log.d(DEBUG_TAG, "Quiz Question State Name: " + stateName);
+//            // checks the questionIds list and make sure there are no duplicates
+//            if (questionStateNames.contains(stateName)) {
+//                Log.d(DEBUG_TAG, "DUPLICATE STATE ");
+//                // when duplicate is found
+//                iterations++; // do another iteration of the while loop and skip adding it to the list
+//                continue;
+//            } // if
+//            Log.d(DEBUG_TAG, "Actual Quiz Question: " + question);
+//            questionStateNames.add(stateName);
+//            questionList.add(question); // should be 6 questions
+//            //Log.d(DEBUG_TAG, "All quizList: " + questionList);
+//        } // for
     } // onCreate
 
     @Override
@@ -82,22 +90,41 @@ public class ViewPagerFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_viewpager, container, false);
     } // onCreateView
 
-    // gaining access to the views once inflated.
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//    // gaining access to the views once inflated.
+//    @Override
+//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//
+//
+//        // gain access to viewpager when view has already been created (so that is why we are in the
+//        // onViewCreated method).
+//        ViewPager2 pager = view.findViewById( R.id.viewpager );
+//
+//        // create an adapter for this fragment
+////        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
+//        QuizQPagerAdapter avpAdapter =  new QuizQPagerAdapter(this , questionList);
+//
+//        // set the viewPager (pager) with the avpAdapter so we can have values (the slides).
+//        pager.setAdapter(avpAdapter);
+//        // get instance of our adapter with the custom class we made "AndroidVersionsPagerAdapter"
+//        pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+//    } // onViewCreated
 
-        // gain access to viewpager when view has already been created (so that is why we are in the
-        // onViewCreated method).
-        ViewPager2 pager = view.findViewById( R.id.viewpager );
+    private class QuizQuestionDBReader extends AsyncTask<Void, List<QuizQuestion>> {
+        @Override
+        protected List<QuizQuestion> doInBackground(Void... params) {
+            List<QuizQuestion> quizQuestionList = quizQuestionsData.retrieveAllQuizQuestions();
 
-        // create an adapter for this fragment
-//        QuizPagerAdapter avpAdapter = new QuizPagerAdapter(this);
-        QuizQPagerAdapter avpAdapter =  new QuizQPagerAdapter(this , questionList);
+            Log.d(DEBUG_TAG, "QuizQuestionDBReader: Quiz questions retrieved: " + quizQuestionList.size());
+            return quizQuestionList;
+        }
 
-        // set the viewPager (pager) with the avpAdapter so we can have values (the slides).
-        pager.setAdapter(avpAdapter);
-        // get instance of our adapter with the custom class we made "AndroidVersionsPagerAdapter"
-        pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-    } // onViewCreated
+        @Override
+        protected void onPostExecute(List<QuizQuestion> questionsList) {
+            Log.d(DEBUG_TAG, "onPostExecute: questionsList.size(): " + questionsList.size());
+            questionList.addAll(questionsList);
+        }
+
+    }
 } // ViewPagerFragment
