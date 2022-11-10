@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class QuizQPagerAdapter extends FragmentStateAdapter {
     public static final String DEBUG_TAG = "QuizQPagerAdapter";
 
     // custom constructor
-    public QuizQPagerAdapter(@NonNull Fragment fragment, List<QuizQuestion> questionList) {
+    public QuizQPagerAdapter(@NonNull FragmentActivity fragment, List<QuizQuestion> questionList) {
         super(fragment);
         this.sixQuestions = questionList;
     }

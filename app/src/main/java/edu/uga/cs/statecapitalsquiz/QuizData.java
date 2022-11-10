@@ -94,7 +94,7 @@ public class QuizData {
 
                         // add each question to the list of questions
                         questions.add( question );
-                        Log.d(DEBUG_TAG, "Retrieved Quiz Question Values: " + question);
+                        //Log.d(DEBUG_TAG, "Retrieved Quiz Question Values: " + question);
                     }
                 }
             }

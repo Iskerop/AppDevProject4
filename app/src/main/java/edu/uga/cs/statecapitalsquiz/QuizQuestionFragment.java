@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,32 +86,6 @@ public class QuizQuestionFragment extends Fragment {
             // get the question number from the bundle
             questionNum = getArguments().getInt("questionNum");
         }
-//        QuizData qd = new QuizData(getContext()); //
-//        qd.open(); // open the database so we can  retrieve all the quiz questions
-//        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
-//
-//        // Randomly select 6 questions with no duplicates
-//        for (int i = 0; i < 6; i++) {
-//            // chooses a random question from the list of question
-//            int index = new Random().nextInt(quizQuestions.size());
-//            QuizQuestion question = quizQuestions.get(index);
-//
-//            // check the question id
-//            long id = question.getId();
-//
-//            // prevents duplicates
-//            if (questionIDs.contains(id)) {
-//                // when duplicate is found
-//                i = i; // reset this iteration and choose a different question
-//                continue;
-//            } // if
-//            questionIDs.add(id); // store the id's of the question questions that we are going to use in the question
-//
-//            // DO WE NEED THIS?
-//             quizQuestions.add(question);
-//             questionList = quizQuestions;
-////            questionList.add(question);
-//        } // for
     } // onCreate
 
     // inflate the quiz question fragment within the view pager
@@ -123,7 +98,7 @@ public class QuizQuestionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // only do this operation if the questioNum position is less than 6. Prevents IOB.
+        // only do this operation if the questionNum position is less than 6. Prevents IOB.
         if (questionNum < 6) {
             this.answerKey = (sixQuestions.get(questionNum).getCapital()); // will be used to compare user answer and quiz answer
             Log.d(DEBUG_TAG, "AnswerKey: " + answerKey);
@@ -156,80 +131,111 @@ public class QuizQuestionFragment extends Fragment {
             String choice3 = answerChoices.get(2);
             cityThree.setText(choice3);
 
-            cityOne.setOnClickListener( new onRadioButtonClicked() );
-            cityTwo.setOnClickListener( new onRadioButtonClicked() );
-            cityThree.setOnClickListener( new onRadioButtonClicked() );
-        } // if
 
+
+            cityOne.setOnClickListener(onRadioButtonClicked);
+            cityTwo.setOnClickListener(onRadioButtonClicked);
+            cityThree.setOnClickListener(onRadioButtonClicked);
+        } // if
     } // onViewCreated
+
+    public View.OnClickListener onRadioButtonClicked = view -> {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.cityOne:
+                if (checked) {
+                    selectedAnswer = answerChoices.get(0);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityTwo:
+                if (checked) {
+                    selectedAnswer = answerChoices.get(1);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityThree:
+                if (checked) {
+                    selectedAnswer = answerChoices.get(2);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+        }
+    };
 
     // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
     // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG
-    private class onRadioButtonClicked implements View.OnClickListener  {
-
-        public void onClick (View view) {
-            // Check which radio button was clicked
-            switch (view.getId()) {
-                case R.id.cityOne:
-                    // if the radio button hasn't been pressed yet, we can increment count of numberOfAnsweredQuestions
-                    // however if the radio button is already pressed, then we don't increment numberOfAnsweredQuestions
-                    // anymore because we don't want it to increase when changing answers
-                    if (!radioButtonPressed) {
-                        numberOfAnsweredQuestions++;
-                        radioButtonPressed = true; // don't increment count anymore
-                    } // if
-                    cityOne = view.findViewById(R.id.cityOne);
-                    checkCorrectAnswer(cityOne.getText().toString());
-                    Log.d(DEBUG_TAG, "Chose Choice A: " + "# correct questions= " + numberOfCorrectAnswers +
-                            " & # answered Questions= " + numberOfAnsweredQuestions);
-                    break;
-                case R.id.cityTwo:
-                    if (!radioButtonPressed) {
-                        numberOfAnsweredQuestions++;
-                        radioButtonPressed = true; // don't increment count anymore
-                    } // if
-                    RadioButton cityTwo = view.findViewById(R.id.cityTwo);
-                    checkCorrectAnswer(cityTwo.getText().toString());
-                    Log.d(DEBUG_TAG, "Chose Choice B: " + "# correct questions= " + numberOfCorrectAnswers +
-                            " & # answered Questions= " + numberOfAnsweredQuestions);
-                    break;
-                case R.id.cityThree:
-                    if (!radioButtonPressed) {
-                        numberOfAnsweredQuestions++;
-                        radioButtonPressed = true; // don't increment count anymore
-                    } // if
-                    RadioButton cityThree = view.findViewById(R.id.cityThree);
-                    checkCorrectAnswer(cityThree.getText().toString());
-                    Log.d(DEBUG_TAG, "Chose Choice C: " + "# correct questions= " + numberOfCorrectAnswers +
-                            " & # answered Questions= " + numberOfAnsweredQuestions);
-                    break;
-            } // Switch
-        } // onClick
-
-        // should be called everytime the user selects a radio button. Manages the computation of the score and answered questions
-        public void checkCorrectAnswer (String choice){
-            Log.d(DEBUG_TAG, "INSIDE checkCorrectAnswer");
-            Log.d(DEBUG_TAG, "choice = " + choice);
-            Log.d(DEBUG_TAG, "answerKey = " + answerKey);
-            if (choice.equals(answerKey)) {
-                // user picks the right answer for their very first choice
-                choseCorrectAnswer = true;
-                numberOfCorrectAnswers++; // incremented
-                Log.d(DEBUG_TAG, "CHOSE THE CORRECT ANSWER");
-            } else if (!(choice.equals(answerKey)) && !(choseCorrectAnswer)) {
-                // user picks the wrong answer for their very first choice (number of correct answers is not decremented)
-                choseCorrectAnswer = false;
-                Log.d(DEBUG_TAG, "CHOSE THE INCORRECT ANSWER");
-            } else if (!(choice.equals(answerKey)) && (choseCorrectAnswer)) {
-                // if the user changes their answer from the correct answer to the wrong answer
-                --numberOfCorrectAnswers;
-                choseCorrectAnswer = false;
-                Log.d(DEBUG_TAG, "CHANGED TO THE INCORRECT ANSWER");
-            } else {
-                choseCorrectAnswer = false;
-            } // else-if
-        } // checkCorrectAnswer
-    } // on RadioButtonClicked
+//    private class onRadioButtonClicked implements View.OnClickListener  {
+//
+//        public void onClick (View view) {
+//            // Check which radio button was clicked
+//            switch (view.getId()) {
+//                case R.id.cityOne:
+//                    // if the radio button hasn't been pressed yet, we can increment count of numberOfAnsweredQuestions
+//                    // however if the radio button is already pressed, then we don't increment numberOfAnsweredQuestions
+//                    // anymore because we don't want it to increase when changing answers
+//                    if (!radioButtonPressed) {
+//                        numberOfAnsweredQuestions++;
+//                        radioButtonPressed = true; // don't increment count anymore
+//                    } // if
+//                    cityOne = view.findViewById(R.id.cityOne);
+//                    checkCorrectAnswer(cityOne.getText().toString());
+//                    Log.d(DEBUG_TAG, "Chose Choice A: " + "# correct questions= " + numberOfCorrectAnswers +
+//                            " & # answered Questions= " + numberOfAnsweredQuestions);
+//                    break;
+//                case R.id.cityTwo:
+//                    if (!radioButtonPressed) {
+//                        numberOfAnsweredQuestions++;
+//                        radioButtonPressed = true; // don't increment count anymore
+//                    } // if
+//                    RadioButton cityTwo = view.findViewById(R.id.cityTwo);
+//                    checkCorrectAnswer(cityTwo.getText().toString());
+//                    Log.d(DEBUG_TAG, "Chose Choice B: " + "# correct questions= " + numberOfCorrectAnswers +
+//                            " & # answered Questions= " + numberOfAnsweredQuestions);
+//                    break;
+//                case R.id.cityThree:
+//                    if (!radioButtonPressed) {
+//                        numberOfAnsweredQuestions++;
+//                        radioButtonPressed = true; // don't increment count anymore
+//                    } // if
+//                    RadioButton cityThree = view.findViewById(R.id.cityThree);
+//                    checkCorrectAnswer(cityThree.getText().toString());
+//                    Log.d(DEBUG_TAG, "Chose Choice C: " + "# correct questions= " + numberOfCorrectAnswers +
+//                            " & # answered Questions= " + numberOfAnsweredQuestions);
+//                    break;
+//            } // Switch
+//        } // onClick
+//
+//        // should be called everytime the user selects a radio button. Manages the computation of the score and answered questions
+//        public void checkCorrectAnswer (String choice){
+//            Log.d(DEBUG_TAG, "INSIDE checkCorrectAnswer");
+//            Log.d(DEBUG_TAG, "choice = " + choice);
+//            Log.d(DEBUG_TAG, "answerKey = " + answerKey);
+//            if (choice.equals(answerKey)) {
+//                // user picks the right answer for their very first choice
+//                choseCorrectAnswer = true;
+//                numberOfCorrectAnswers++; // incremented
+//                Log.d(DEBUG_TAG, "CHOSE THE CORRECT ANSWER");
+//            } else if (!(choice.equals(answerKey)) && !(choseCorrectAnswer)) {
+//                // user picks the wrong answer for their very first choice (number of correct answers is not decremented)
+//                choseCorrectAnswer = false;
+//                Log.d(DEBUG_TAG, "CHOSE THE INCORRECT ANSWER");
+//            } else if (!(choice.equals(answerKey)) && (choseCorrectAnswer)) {
+//                // if the user changes their answer from the correct answer to the wrong answer
+//                --numberOfCorrectAnswers;
+//                choseCorrectAnswer = false;
+//                Log.d(DEBUG_TAG, "CHANGED TO THE INCORRECT ANSWER");
+//            } else {
+//                choseCorrectAnswer = false;
+//            } // else-if
+//        } // checkCorrectAnswer
+//    } // on RadioButtonClicked
 
     public static int getNumberOfCorrectAnswers() {
         return numberOfCorrectAnswers;
@@ -245,36 +251,6 @@ public class QuizQuestionFragment extends Fragment {
 //        cityThree.setOnClickListener(onRadioButtonClicked);
 
     //} // onViewCreated
-
-//    public View.OnClickListener onRadioButtonClicked = view -> {
-//        // Is the button now checked?
-//        boolean checked = ((RadioButton) view).isChecked();
-//
-//        // Check which radio button was clicked
-//        switch(view.getId()) {
-//            case R.id.cityOne:
-//                if (checked) {
-//                    selectedAnswer = answers.get(0);
-//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-//                    t.show();
-//                    break;
-//                }
-//            case R.id.cityTwo:
-//                if (checked) {
-//                    selectedAnswer = answers.get(1);
-//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-//                    t.show();
-//                    break;
-//                }
-//            case R.id.cityThree:
-//                if (checked) {
-//                    selectedAnswer = answers.get(2);
-//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-//                    t.show();
-//                    break;
-//                }
-//        }
-//    };
 
     // controls how many screens there are for the quiz
     public static int getNumberOfQuestions() {
