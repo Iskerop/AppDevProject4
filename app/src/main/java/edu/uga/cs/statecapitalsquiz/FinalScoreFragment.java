@@ -28,13 +28,13 @@ public class FinalScoreFragment extends Fragment {
         // Required empty public constructor
     } // FinalScoreFragment
 
-    public static FinalScoreFragment newInstance() {
+    public static FinalScoreFragment newInstance(String dateAndTime) {
         FinalScoreFragment fragment = new FinalScoreFragment();
         Bundle args = new Bundle();
 //        args.putDouble( "numAQ", numAnsweredQuestions );
 //        args.putDouble( "numCorrectAnswers", correctAnswers);
-//        args.putString("quizDateAndTime", dateAndTime);
-//        fragment.setArguments( args );
+        args.putString("quizDateAndTime", dateAndTime);
+        fragment.setArguments( args );
         return fragment;
     } // newInstance
 
@@ -45,7 +45,7 @@ public class FinalScoreFragment extends Fragment {
             // storing the bundle values in class variables
 //            numberOfQuestionsAnswered = getArguments().getDouble("numAQ");
 //            correctAnswers = getArguments().getDouble("numCorrectAnswers");
-//            quizDateAndTimeFinished = getArguments().getString("quizDateAndTime");
+            quizDateAndTimeFinished = getArguments().getString("quizDateAndTime");
         } // if
     } // onCreate
 

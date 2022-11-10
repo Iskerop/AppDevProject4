@@ -43,7 +43,7 @@ public class QuizPagerAdapter extends FragmentStateAdapter {
             String formattedDateAndTime = formatter.format(instance);
 
             // place values in here for now (will load this with real values later.)
-            return FinalScoreFragment.newInstance();
+            return FinalScoreFragment.newInstance(formattedDateAndTime);
         }
 
         // returns the quiz questions

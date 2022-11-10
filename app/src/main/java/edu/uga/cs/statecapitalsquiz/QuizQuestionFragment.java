@@ -63,7 +63,7 @@ public class QuizQuestionFragment extends Fragment {
             String formattedDateAndTime = formatter.format(instance);
 
             // place values in here for now (will load this with real values later.)
-            return FinalScoreFragment.newInstance();
+            return FinalScoreFragment.newInstance(formattedDateAndTime);
         }
         QuizQuestionFragment fragment = new QuizQuestionFragment(sixQuestions);
         Bundle args = new Bundle();
@@ -119,7 +119,7 @@ public class QuizQuestionFragment extends Fragment {
         return inflater.inflate(R.layout.quiz_question, container, false);
     }
 
-    // sets quiz question information for the appropriate views
+    // set the quiz question information for the appropriate views
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -238,43 +238,43 @@ public class QuizQuestionFragment extends Fragment {
     public static int getNumberOfAnsweredQuestions() {
         return numberOfAnsweredQuestions;
     } // getNumberOfCorrectAnswers()
-        // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
-        // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG
-        cityOne.setOnClickListener(onRadioButtonClicked);
-        cityTwo.setOnClickListener(onRadioButtonClicked);
-        cityThree.setOnClickListener(onRadioButtonClicked);
+//        // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
+//        // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG
+//        cityOne.setOnClickListener(onRadioButtonClicked);
+//        cityTwo.setOnClickListener(onRadioButtonClicked);
+//        cityThree.setOnClickListener(onRadioButtonClicked);
 
-    } // onViewCreated
+    //} // onViewCreated
 
-    public View.OnClickListener onRadioButtonClicked = view -> {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.cityOne:
-                if (checked) {
-                    selectedAnswer = answers.get(0);
-                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-                    t.show();
-                    break;
-                }
-            case R.id.cityTwo:
-                if (checked) {
-                    selectedAnswer = answers.get(1);
-                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-                    t.show();
-                    break;
-                }
-            case R.id.cityThree:
-                if (checked) {
-                    selectedAnswer = answers.get(2);
-                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
-                    t.show();
-                    break;
-                }
-        }
-    };
+//    public View.OnClickListener onRadioButtonClicked = view -> {
+//        // Is the button now checked?
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//        // Check which radio button was clicked
+//        switch(view.getId()) {
+//            case R.id.cityOne:
+//                if (checked) {
+//                    selectedAnswer = answers.get(0);
+//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+//                    t.show();
+//                    break;
+//                }
+//            case R.id.cityTwo:
+//                if (checked) {
+//                    selectedAnswer = answers.get(1);
+//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+//                    t.show();
+//                    break;
+//                }
+//            case R.id.cityThree:
+//                if (checked) {
+//                    selectedAnswer = answers.get(2);
+//                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+//                    t.show();
+//                    break;
+//                }
+//        }
+//    };
 
     // controls how many screens there are for the quiz
     public static int getNumberOfQuestions() {

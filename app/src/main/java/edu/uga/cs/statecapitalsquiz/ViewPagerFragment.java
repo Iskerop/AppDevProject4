@@ -23,7 +23,7 @@ public class ViewPagerFragment extends Fragment {
 
     public List<QuizQuestion> questionList = new ArrayList<>();
     private int questionNum;
-    private ArrayList<Long> questionIDs = new ArrayList<Long>() {};
+    private ArrayList<String> questionStateNames = new ArrayList<String>() {};
     public static final String DEBUG_TAG = "ViewPagerFragment";
 
     public ViewPagerFragment() {
@@ -47,7 +47,7 @@ public class ViewPagerFragment extends Fragment {
         QuizData qd = new QuizData(getContext()); //
         qd.open(); // open the database so we can  retrieve all the quiz questions
         List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
-        Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
+        //Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
 
         int iterations = 6;
 
@@ -59,24 +59,19 @@ public class ViewPagerFragment extends Fragment {
             QuizQuestion question = quizQuestions.get(index);
 
             // check the question id
-            long id = question.getId();
-
+            String stateName = question.getState();
+            Log.d(DEBUG_TAG, "Quiz Question State Name: " + stateName);
             // checks the questionIds list and make sure there are no duplicates
-            if (questionIDs.contains(id)) {
+            if (questionStateNames.contains(stateName)) {
+                Log.d(DEBUG_TAG, "DUPLICATE STATE ");
                 // when duplicate is found
-                iterations++; // do another iteration of the while loop
+                iterations++; // do another iteration of the while loop and skip adding it to the list
                 continue;
             } // if
             Log.d(DEBUG_TAG, "Actual Quiz Question: " + question);
-            questionIDs.add(id); // store the id's of the questions that we are going to use in the quiz
-            Log.d(DEBUG_TAG, "Actual Quiz Question ID: " + id);
-
-            // DO WE NEED THIS?
-//            quizQuestions.add(question);
-//            questionList = quizQuestions;
+            questionStateNames.add(stateName);
             questionList.add(question); // should be 6 questions
-            Log.d(DEBUG_TAG, "All quizList: " + questionList);
-            //
+            //Log.d(DEBUG_TAG, "All quizList: " + questionList);
         } // for
     } // onCreate
 
