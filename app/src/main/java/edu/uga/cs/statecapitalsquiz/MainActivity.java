@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e( TAG, e.toString() );
         }
-
-
     } // onCreate
 
     // this method controls what happens after the user selection of the navigation drawer

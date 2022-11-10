@@ -50,18 +50,21 @@
             android:id="@+id/cityOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="RadioButton"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/cityTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="RadioButton"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/cityThree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="RadioButton"
+            android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

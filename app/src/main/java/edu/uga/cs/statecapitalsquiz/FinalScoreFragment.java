@@ -19,23 +19,22 @@ import android.widget.TextView;
 public class FinalScoreFragment extends Fragment {
 
     // the class variables that will be used to display text in TextView
-    private double numberOfQuestionsAnswered;
-    private double correctAnswers;
-    private double finalQuizScore;
+    private double numberOfQuestionsAnswered = QuizQuestionFragment.getNumberOfAnsweredQuestions();
+    private double correctAnswers = QuizQuestionFragment.getNumberOfCorrectAnswers();
+    private double finalQuizScore = correctAnswers / numberOfQuestionsAnswered;
     private String quizDateAndTimeFinished;
 
     public FinalScoreFragment() {
         // Required empty public constructor
     } // FinalScoreFragment
 
-    public static FinalScoreFragment newInstance(double correctAnswers, double numAnsweredQuestions,
-                                                 String dateAndTime) {
+    public static FinalScoreFragment newInstance() {
         FinalScoreFragment fragment = new FinalScoreFragment();
         Bundle args = new Bundle();
-        args.putDouble( "numAQ", numAnsweredQuestions );
-        args.putDouble( "numCorrectAnswers", correctAnswers);
-        args.putString("quizDateAndTime", dateAndTime);
-        fragment.setArguments( args );
+//        args.putDouble( "numAQ", numAnsweredQuestions );
+//        args.putDouble( "numCorrectAnswers", correctAnswers);
+//        args.putString("quizDateAndTime", dateAndTime);
+//        fragment.setArguments( args );
         return fragment;
     } // newInstance
 
@@ -44,9 +43,9 @@ public class FinalScoreFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             // storing the bundle values in class variables
-            numberOfQuestionsAnswered = getArguments().getDouble("numAQ");
-            correctAnswers = getArguments().getDouble("numCorrectAnswers");
-            quizDateAndTimeFinished = getArguments().getString("quizDateAndTime");
+//            numberOfQuestionsAnswered = getArguments().getDouble("numAQ");
+//            correctAnswers = getArguments().getDouble("numCorrectAnswers");
+//            quizDateAndTimeFinished = getArguments().getString("quizDateAndTime");
         } // if
     } // onCreate
 

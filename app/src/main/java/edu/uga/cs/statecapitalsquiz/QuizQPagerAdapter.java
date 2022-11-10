@@ -1,6 +1,7 @@
 package edu.uga.cs.statecapitalsquiz;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,6 +17,7 @@ import java.util.Random;
 public class QuizQPagerAdapter extends FragmentStateAdapter {
 
     public List<QuizQuestion> sixQuestions = new ArrayList<>();
+    public static final String DEBUG_TAG = "QuizQPagerAdapter";
 
     // custom constructor
     public QuizQPagerAdapter(@NonNull Fragment fragment, List<QuizQuestion> questionList) {
@@ -23,10 +25,10 @@ public class QuizQPagerAdapter extends FragmentStateAdapter {
         this.sixQuestions = questionList;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public Fragment createFragment(int position) {
+        Log.d(DEBUG_TAG, "createFragment: " + position);
         return QuizQuestionFragment.newInstance(position, sixQuestions);
     }
 

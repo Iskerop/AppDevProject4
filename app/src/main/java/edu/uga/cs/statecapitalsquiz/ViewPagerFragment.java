@@ -49,8 +49,10 @@ public class ViewPagerFragment extends Fragment {
         List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
         Log.d(DEBUG_TAG, "All quizQuestions: " + quizQuestions);
 
+        int iterations = 6;
+
         // Randomly select 6 questions with no duplicates
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < iterations; i++) {
 
             // chooses a random question from the list of question
             int index = new Random().nextInt(quizQuestions.size()); // gets a random number between 0(inclusive) and the number passed in this argument(n), exclusive.
@@ -62,11 +64,12 @@ public class ViewPagerFragment extends Fragment {
             // checks the questionIds list and make sure there are no duplicates
             if (questionIDs.contains(id)) {
                 // when duplicate is found
-                i = i; // reset this iteration and choose a different question
+                iterations++; // do another iteration of the while loop
                 continue;
             } // if
             Log.d(DEBUG_TAG, "Actual Quiz Question: " + question);
             questionIDs.add(id); // store the id's of the questions that we are going to use in the quiz
+            Log.d(DEBUG_TAG, "Actual Quiz Question ID: " + id);
 
             // DO WE NEED THIS?
 //            quizQuestions.add(question);
