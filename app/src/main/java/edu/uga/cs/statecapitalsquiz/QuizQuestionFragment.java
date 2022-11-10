@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +24,8 @@ public class QuizQuestionFragment extends Fragment {
 
     private List<QuizQuestion> sixQuestions;
     private int questionNum;
+    private List<String> answers = new ArrayList<>();
+    private String selectedAnswer;
 
     //empty constructor
     public QuizQuestionFragment() {
@@ -111,15 +115,56 @@ public class QuizQuestionFragment extends Fragment {
         RadioButton cityTwo = view.findViewById(R.id.cityTwo);
         RadioButton cityThree = view.findViewById(R.id.cityThree);
 
+        // randomize answer choices
+        answers.add(sixQuestions.get(questionNum).getCapital());
+        answers.add(sixQuestions.get(questionNum).getFirstCity());
+        answers.add(sixQuestions.get(questionNum).getSecondCity());
+
+        Collections.shuffle(answers); //randomize answer order
+
         if (questionNum < 6) {
             stateName.setText(sixQuestions.get(questionNum).getState());
-            cityOne.setText(sixQuestions.get(questionNum).getCapital());
-            cityTwo.setText(sixQuestions.get(questionNum).getFirstCity());
-            cityThree.setText(sixQuestions.get(questionNum).getSecondCity());
+            cityOne.setText(answers.get(0));
+            cityTwo.setText(answers.get(1));
+            cityThree.setText(answers.get(2));
         } // if
         // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
         // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG
+        cityOne.setOnClickListener(onRadioButtonClicked);
+        cityTwo.setOnClickListener(onRadioButtonClicked);
+        cityThree.setOnClickListener(onRadioButtonClicked);
+
     } // onViewCreated
+
+    public View.OnClickListener onRadioButtonClicked = view -> {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.cityOne:
+                if (checked) {
+                    selectedAnswer = answers.get(0);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityTwo:
+                if (checked) {
+                    selectedAnswer = answers.get(1);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityThree:
+                if (checked) {
+                    selectedAnswer = answers.get(2);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+        }
+    };
 
     // controls how many screens there are for the quiz
     public static int getNumberOfQuestions() {
