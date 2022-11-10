@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,6 +26,8 @@ public class QuizQuestionFragment extends Fragment {
     private List<QuizQuestion> sixQuestions;
     private List<String> answerChoices = new ArrayList<>();;
     private String answerKey;
+    private List<String> answers = new ArrayList<>();
+    private String selectedAnswer;
     // taking the quiz
     // Declaring a variable or a method as static, it belongs to the class.
     // Only one instance of a static member exists, even if you create multiple objects of the class.
@@ -82,6 +85,32 @@ public class QuizQuestionFragment extends Fragment {
             // get the question number from the bundle
             questionNum = getArguments().getInt("questionNum");
         }
+//        QuizData qd = new QuizData(getContext()); //
+//        qd.open(); // open the database so we can  retrieve all the quiz questions
+//        List<QuizQuestion> quizQuestions = qd.retrieveAllQuizQuestions(); // retrieveAllQuizzes returns a list of the quiz questions
+//
+//        // Randomly select 6 questions with no duplicates
+//        for (int i = 0; i < 6; i++) {
+//            // chooses a random question from the list of question
+//            int index = new Random().nextInt(quizQuestions.size());
+//            QuizQuestion question = quizQuestions.get(index);
+//
+//            // check the question id
+//            long id = question.getId();
+//
+//            // prevents duplicates
+//            if (questionIDs.contains(id)) {
+//                // when duplicate is found
+//                i = i; // reset this iteration and choose a different question
+//                continue;
+//            } // if
+//            questionIDs.add(id); // store the id's of the question questions that we are going to use in the question
+//
+//            // DO WE NEED THIS?
+//             quizQuestions.add(question);
+//             questionList = quizQuestions;
+////            questionList.add(question);
+//        } // for
     } // onCreate
 
     // inflate the quiz question fragment within the view pager
@@ -209,6 +238,43 @@ public class QuizQuestionFragment extends Fragment {
     public static int getNumberOfAnsweredQuestions() {
         return numberOfAnsweredQuestions;
     } // getNumberOfCorrectAnswers()
+        // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
+        // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG
+        cityOne.setOnClickListener(onRadioButtonClicked);
+        cityTwo.setOnClickListener(onRadioButtonClicked);
+        cityThree.setOnClickListener(onRadioButtonClicked);
+
+    } // onViewCreated
+
+    public View.OnClickListener onRadioButtonClicked = view -> {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.cityOne:
+                if (checked) {
+                    selectedAnswer = answers.get(0);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityTwo:
+                if (checked) {
+                    selectedAnswer = answers.get(1);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+            case R.id.cityThree:
+                if (checked) {
+                    selectedAnswer = answers.get(2);
+                    Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
+                    t.show();
+                    break;
+                }
+        }
+    };
 
     // controls how many screens there are for the quiz
     public static int getNumberOfQuestions() {
