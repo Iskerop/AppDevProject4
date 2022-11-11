@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -28,6 +30,7 @@ public class PastQuizzesRecyclerAdapter
 
     public PastQuizzesRecyclerAdapter(Context context, List<QuizHistory> quizList ) {
         this.context = context;
+        Collections.sort(quizList, new sortDescendingOrder()); // sort the
         this.values = quizList;
         this.originalValues = new ArrayList<QuizHistory>( quizList );
     } // PastQuizzesRecyclerAdapter
@@ -76,7 +79,6 @@ public class PastQuizzesRecyclerAdapter
         holder.quizScore.setText( String.valueOf(quiz.getResult()) );
     }
 
-
     // returns the total number of items in the data set held by the adapter
     @Override
     public int getItemCount() {
@@ -85,4 +87,13 @@ public class PastQuizzesRecyclerAdapter
         else
             return 0;
     } // getItemCount
-}
+
+    class sortDescendingOrder implements Comparator<QuizHistory> {
+        // Method of Comparator class
+        @Override
+        public int compare(QuizHistory a, QuizHistory b) {
+            /* Returns sorted data in ascending order */
+            return b.getDate().compareTo(a.getDate());
+        } // compare
+    } // sortCompare
+} // PastQuizzesRecyclerAdapter
