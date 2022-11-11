@@ -169,7 +169,7 @@ public class QuizHistoryData {
 
         for (int i = 0; i < answerList.length; i++) {
             Log.d("QuizHistoryData", "question.get: " + questions.get(i).getCapital() + " ansList: " + answerList[i] + " selected: " + selectedAnswer);
-            if (questions.get(i).getCapital().equals(answerList[i])) { // correct answer
+            if (questions.get(i).getCapital().trim().equals(answerList[i].trim())) { // correct answer
                 result++;
             }
             if (!answerList[i].isEmpty()) { // question has been answered at least once
