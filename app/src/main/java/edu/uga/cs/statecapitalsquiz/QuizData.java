@@ -16,7 +16,6 @@ import java.util.List;
 public class QuizData {
 
     public static final String DEBUG_TAG = "QuizData";
-    private boolean ongoingQuiz = false;
     private List<QuizQuestion> quizQuestions;
 
     // this is a reference to our database; it is used later to run SQL commands
@@ -74,7 +73,7 @@ public class QuizData {
 
                     if( cursor.getColumnCount() >= 6) {
 
-                        // get all attribute values of this job lead
+                        // get all attribute values of this quiz data
                         columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_ID );
                         long id = cursor.getLong( columnIndex );
                         columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_STATE );
@@ -144,17 +143,26 @@ public class QuizData {
         return question;
     }
 
-    public boolean isStoringOngoingQuiz() {
-        return ongoingQuiz;
-    }
+    public QuizQuestion getQuizByID(long id) {
+        Cursor cursor = db.query(QuizDBHelper.TABLE_QUIZZES, allColumns, "_id = ?", new String[]{String.valueOf(id)}, null, null, null, "1");
+        int columnIndex;
+        cursor.moveToNext();
+        // get all attribute values of this job lead
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_ID );
+        long ident = cursor.getLong( columnIndex );
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_STATE );
+        String state = cursor.getString( columnIndex );
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_CAPITAL );
+        String capital = cursor.getString( columnIndex );
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_FIRST );
+        String first = cursor.getString( columnIndex );
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_SECOND );
+        String second = cursor.getString( columnIndex );
+        columnIndex = cursor.getColumnIndex( QuizDBHelper.QUIZZES_COLUMN_CAPITAL_SINCE);
+        String capitalSince = cursor.getString(columnIndex);
 
-    public void setOngoingQuiz(boolean ongoingQuiz) {
-        this.ongoingQuiz = ongoingQuiz;
-    }
-
-    public void storeSelectedQuizQuestions(List<QuizQuestion> quizQuestions) {
-        setOngoingQuiz(true);
-        this.quizQuestions = quizQuestions;
+        QuizQuestion question = new QuizQuestion(state, capital, first, second, capitalSince);
+        return question;
     }
 }
 

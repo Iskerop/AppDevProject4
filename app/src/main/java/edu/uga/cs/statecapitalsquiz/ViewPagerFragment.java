@@ -181,4 +181,15 @@ public class ViewPagerFragment extends Fragment {
     }
 
 
+
+    // We need to save quiz data into a file as the activity stops being a foreground activity
+    @Override
+    public void onPause() {
+        Log.d( DEBUG_TAG, "ViewPagerFragment.onPause()" );
+        super.onPause();
+        // close the database in onPause
+        if( quizHistoryData != null )
+            quizHistoryData.close();
+    }
+
 } // ViewPagerFragment

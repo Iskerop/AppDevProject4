@@ -86,6 +86,22 @@ public class QuizQuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            QuizData quizData = new QuizData(getActivity());
+            quizData.open();
+            quizHistoryData = new QuizHistoryData(getActivity());
+            quizHistoryData.open();
+            QuizHistory quizHistory = quizHistoryData.getLatestQuizHistory();
+
+            sixQuestions = new ArrayList<>();
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getFirstQuest())));
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getSecondQuest())));
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getThirdQuest())));
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getFourthQuest())));
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getFifthQuest())));
+            sixQuestions.add(quizData.getQuizByID(Long.parseLong(quizHistory.getSixthQuest())));
+        }
+
         if (getArguments() != null) {
             // get the question number from the bundle
             questionNum = getArguments().getInt("questionNum");
