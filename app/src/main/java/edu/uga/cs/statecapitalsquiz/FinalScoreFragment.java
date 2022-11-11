@@ -14,8 +14,8 @@ import android.widget.TextView;
 public class FinalScoreFragment extends Fragment {
 
     // the class variables that will be used to display text in TextView
-    private double numberOfQuestionsAnswered = QuizQuestionFragment.getNumberOfAnsweredQuestions();
-    private double correctAnswers = QuizQuestionFragment.getNumberOfCorrectAnswers();
+    private double numberOfQuestionsAnswered;
+    private double correctAnswers;
     private double finalQuizScore = correctAnswers / numberOfQuestionsAnswered;
     private String quizDateAndTimeFinished;
 
@@ -106,7 +106,7 @@ public class FinalScoreFragment extends Fragment {
 
                 // calling the method in MainActivity to change this fragment to PastQuizzesFragment
                 // while also supplying the "date & time" and the score so it will be saved in the recyclerView
-                ((MainActivity) getActivity()).replaceFragment(quizDateAndTimeFinished, finalQuizScore);
+                ((MainActivity) getActivity()).replaceFragment();
             } // onClick
         }); // setOnClickListener
     } // onViewCreated

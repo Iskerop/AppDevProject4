@@ -148,7 +148,7 @@ public class ViewPagerFragment extends Fragment {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy h:mm a");
             String formattedDateAndTime = formatter.format(instance);
 
-            // create initial QuizHistory object for entry into database
+//          create initial QuizHistory object for entry into database
             QuizHistory qh = new QuizHistory(formattedDateAndTime,
                     String.valueOf(selectedQuestionList.get(0).getId()),
                     String.valueOf(selectedQuestionList.get(1).getId()),

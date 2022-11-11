@@ -31,7 +31,7 @@ public class PastQuizzesFragment extends Fragment {
     }
 
     // NOT NEEDED
-    public static PastQuizzesFragment newInstance(String date, double score) {
+    public static PastQuizzesFragment newInstance() {
         PastQuizzesFragment fragment = new PastQuizzesFragment();
         return fragment;
     }
@@ -87,7 +87,7 @@ public class PastQuizzesFragment extends Fragment {
         protected List<QuizHistory> doInBackground(Void... params ) {
             List<QuizHistory> quizList = quizHistoryData.retrieveHistory();
 
-            Log.d( TAG, "QuizDBReader: Quizzes retrieved: " + quizList.size() );
+            Log.d( TAG, "QuizDBReader: Quizzes retrieved: " + quizList );
             return quizList;
         }
 
@@ -106,35 +106,35 @@ public class PastQuizzesFragment extends Fragment {
         }
     }
 
-    // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a Quiz, asynchronously.
-    public class QuizDBWriter extends AsyncTask<QuizHistory, QuizHistory> {
-
-        // This method will run as a background process to write into db.
-        // It will be automatically invoked by Android, when we call the execute method
-        // in the onClick listener of the Save button.
-        @Override
-        protected QuizHistory doInBackground(QuizHistory... quizzes ) {
-            quizHistoryData.storeQuizHistory( quizzes[0] );
-            return quizzes[0];
-        }
-
-        // This method will be automatically called by Android once the writing to the database
-        // in a background process has finished.  Note that "doInBackground" returns a Quiz object.
-        // That object will be passed as argument to onPostExecute.
-        // onPostExecute is like the notify method in an asynchronous method call discussed in class.
-        @Override
-        protected void onPostExecute( QuizHistory quiz ) {
-            // Update the recycler view to include the new quiz
-            quizList.add( quiz );
-            // Sync the originalValues list in the recyler adapter to the new updated list (QuizList)
-            recyclerAdapter.sync();
-            // Notify the adapter that an item has been inserted
-            recyclerAdapter.notifyItemInserted(quizList.size() - 1 );
-            // Reposition the view to show to newly added item by smoothly scrolling to it
-            recyclerView.smoothScrollToPosition( quizList.size() - 1 );
-            Log.d( TAG, "Quiz saved: " + quiz );
-        }
-    }
+//    // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a Quiz, asynchronously.
+//    public class QuizDBWriter extends AsyncTask<QuizHistory, QuizHistory> {
+//
+//        // This method will run as a background process to write into db.
+//        // It will be automatically invoked by Android, when we call the execute method
+//        // in the onClick listener of the Save button.
+//        @Override
+//        protected QuizHistory doInBackground(QuizHistory... quizzes ) {
+//            quizHistoryData.storeQuizHistory( quizzes[0] );
+//            return quizzes[0];
+//        }
+//
+//        // This method will be automatically called by Android once the writing to the database
+//        // in a background process has finished.  Note that "doInBackground" returns a Quiz object.
+//        // That object will be passed as argument to onPostExecute.
+//        // onPostExecute is like the notify method in an asynchronous method call discussed in class.
+//        @Override
+//        protected void onPostExecute( QuizHistory quiz ) {
+//            // Update the recycler view to include the new quiz
+//            quizList.add( quiz );
+//            // Sync the originalValues list in the recyler adapter to the new updated list (QuizList)
+//            recyclerAdapter.sync();
+//            // Notify the adapter that an item has been inserted
+//            recyclerAdapter.notifyItemInserted(quizList.size() - 1 );
+//            // Reposition the view to show to newly added item by smoothly scrolling to it
+//            recyclerView.smoothScrollToPosition( quizList.size() - 1 );
+//            Log.d( TAG, "Quiz saved: " + quiz );
+//        } // onPostExecute
+//    } // QuizDBWriter
 
     @Override
     public void onResume() {
