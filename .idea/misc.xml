@@ -3,8 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout-land/fragment_splash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2415921057611251" />
         <entry key="app/src/main/res/layout/fragment_final_score.xml" value="0.14969604863221886" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.14969604863221886" />
@@ -13,7 +11,7 @@
         <entry key="app/src/main/res/layout/fragment_start_new_quiz.xml" value="0.14969604863221886" />
         <entry key="app/src/main/res/layout/fragment_viewpager.xml" value="0.14969604863221886" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.14969604863221886" />
-        <entry key="app/src/main/res/layout/quiz.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/quiz.xml" value="0.10869565217391304" />
         <entry key="app/src/main/res/layout/quiz_question.xml" value="0.19896240234375" />
       </map>
     </option>

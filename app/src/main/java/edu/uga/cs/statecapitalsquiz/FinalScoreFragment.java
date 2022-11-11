@@ -24,6 +24,8 @@ public class FinalScoreFragment extends Fragment {
     private double finalQuizScore = correctAnswers / numberOfQuestionsAnswered;
     private String quizDateAndTimeFinished;
 
+    private QuizHistoryData quizHistoryData = null;
+
     public FinalScoreFragment() {
         // Required empty public constructor
     } // FinalScoreFragment
@@ -47,6 +49,9 @@ public class FinalScoreFragment extends Fragment {
 //            correctAnswers = getArguments().getDouble("numCorrectAnswers");
             quizDateAndTimeFinished = getArguments().getString("quizDateAndTime");
         } // if
+
+        quizHistoryData = new QuizHistoryData(getActivity());
+        quizHistoryData.open();
     } // onCreate
 
     @Override
@@ -61,6 +66,15 @@ public class FinalScoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView numCorrectAnswersTextView = getView().findViewById(R.id.textView7);
+        TextView dateAndTimeTextView = getView().findViewById(R.id.textView9);
+        Button pastQuizzesButton = getView().findViewById(R.id.button);
+        TextView finalScoreTextView = getView().findViewById(R.id.textView8);
+
+        QuizHistory quizHistory = quizHistoryData.getLatestQuizHistory();
+        correctAnswers = quizHistory.getResult();
+        numberOfQuestionsAnswered = quizHistory.getNumAnswered();
+        quizDateAndTimeFinished = quizHistory.getDate();
+
         // round 0 places for :number of correct answers" and "number of questions"
         String numberOfCorrectAnswersString = "You got " + String.format("%.0f", correctAnswers) + "/" +
                 String.format("%.0f", numberOfQuestionsAnswered) + " questions correct";
@@ -69,16 +83,13 @@ public class FinalScoreFragment extends Fragment {
         finalQuizScore = correctAnswers/numberOfQuestionsAnswered * 100;
 
         // displays final score
-        TextView finalScoreTextView = getView().findViewById(R.id.textView8);
         // round 2 decimal points for final quiz score
         String finalScoreString = "Final Score: " + String.format("%.2f", finalQuizScore) + "%";
         finalScoreTextView.setText(finalScoreString); // display the percentage
 
-        TextView dateAndTimeTextView = getView().findViewById(R.id.textView9);
         String dataAndTimeString = "Date and Time: " + quizDateAndTimeFinished;
         dateAndTimeTextView.setText(dataAndTimeString);
 
-        Button pastQuizzesButton = getView().findViewById(R.id.button);
 
         /**
          * The View.OnClickListener class is to be invoked when a view is clicked, in this case, a button.

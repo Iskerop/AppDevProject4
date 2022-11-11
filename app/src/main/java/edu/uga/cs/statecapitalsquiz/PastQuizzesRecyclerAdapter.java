@@ -73,7 +73,7 @@ public class PastQuizzesRecyclerAdapter
         //Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 
         holder.quizDate.setText( quiz.getDate() );
-        holder.quizScore.setText( quiz.getResult() );
+        holder.quizScore.setText( String.valueOf(quiz.getResult()) );
     }
 
 
