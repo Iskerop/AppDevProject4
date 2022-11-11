@@ -117,9 +117,9 @@ public class QuizQuestionFragment extends Fragment {
             answerChoices.add(sixQuestions.get(questionNum).getFirstCity());
             answerChoices.add(sixQuestions.get(questionNum).getSecondCity());
 
-            Log.d(DEBUG_TAG, "Unshuffled answer choices: " + answerChoices);
+//            Log.d(DEBUG_TAG, "Unshuffled answer choices: " + answerChoices);
             Collections.shuffle(answerChoices); // shuffle the answer choices
-            Log.d(DEBUG_TAG, "Shuffled answer choices: " + answerChoices);
+//            Log.d(DEBUG_TAG, "Shuffled answer choices: " + answerChoices);
 
             //  QUESTION Section
             TextView stateName = view.findViewById(R.id.stateName);
@@ -185,10 +185,10 @@ public class QuizQuestionFragment extends Fragment {
     private void checkAnswer(String selectedAnswer) {
         // retrieve correct answer and compare to selected answer
         if (selectedAnswer.equals(sixQuestions.get(questionNum).getCapital())) {
-            quizHistoryData.processAnswer(questionNum, true);
+            quizHistoryData.processAnswer(selectedAnswer, questionNum, true, sixQuestions);
         }
         else {
-            quizHistoryData.processAnswer(questionNum, false);
+            quizHistoryData.processAnswer(selectedAnswer, questionNum, false, sixQuestions);
         }
     }
 

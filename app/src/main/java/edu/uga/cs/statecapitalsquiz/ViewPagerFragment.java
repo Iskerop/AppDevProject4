@@ -155,7 +155,7 @@ public class ViewPagerFragment extends Fragment {
                     String.valueOf(selectedQuestionList.get(2).getId()),
                     String.valueOf(selectedQuestionList.get(3).getId()),
                     String.valueOf(selectedQuestionList.get(4).getId()),
-                    String.valueOf(selectedQuestionList.get(5).getId()), 0, 0);
+                    String.valueOf(selectedQuestionList.get(5).getId()), 0, 0, null);
 
             new QuizHistoryDBWriter().execute(qh);
         } // onPostExecute

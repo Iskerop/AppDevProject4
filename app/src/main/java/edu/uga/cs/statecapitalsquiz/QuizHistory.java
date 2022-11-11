@@ -11,6 +11,7 @@ public class QuizHistory {
     private String sixthQuest;
     private int result;
     private int numAnswered;
+    private String answers;
 
     // default constructor
     public QuizHistory() {
@@ -24,9 +25,10 @@ public class QuizHistory {
         this.sixthQuest = null;
         this.result = 0;
         this.numAnswered = 0;
+        this.answers = null;
     }
 
-    public QuizHistory(String date, String firstQuest, String secondQuest, String thirdQuest, String fourthQuest, String fifthQuest, String sixthQuest, int result, int numAnswered) {
+    public QuizHistory(String date, String firstQuest, String secondQuest, String thirdQuest, String fourthQuest, String fifthQuest, String sixthQuest, int result, int numAnswered, String answers) {
         this.id = -1;
         this.date = date;
         this.firstQuest = firstQuest;
@@ -37,6 +39,7 @@ public class QuizHistory {
         this.sixthQuest = sixthQuest;
         this.result = result;
         this.numAnswered = numAnswered;
+        this.answers = answers;
     }
 
     public long getId() {
@@ -117,6 +120,14 @@ public class QuizHistory {
 
     public void setNumAnswered(int numAnswered) {
         this.numAnswered = numAnswered;
+    }
+
+    public String getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(String answers) {
+        this.answers = answers;
     }
 
     @Override
