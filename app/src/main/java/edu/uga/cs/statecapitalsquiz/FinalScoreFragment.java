@@ -11,11 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FinalScoreFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FinalScoreFragment extends Fragment {
 
     // the class variables that will be used to display text in TextView
