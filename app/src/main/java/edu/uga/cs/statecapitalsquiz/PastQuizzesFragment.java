@@ -20,46 +20,25 @@ public class PastQuizzesFragment extends Fragment {
 
     private static final String TAG = "PastQuizzesFragment";
 
-    private QuizData quizData = null;
-    private List<QuizQuestion> quizList;
+    private QuizHistoryData quizHistoryData = null;
+    private List<QuizHistory> quizList;
 
     private RecyclerView recyclerView;
     private PastQuizzesRecyclerAdapter recyclerAdapter;
-
-    // TODO: Rename and change types of parameters
-    // PROBABLY don't need for now
-//    private String quizFinalDate;
-//    private String quizFinalScore;
 
     public PastQuizzesFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
+    // NOT NEEDED
     public static PastQuizzesFragment newInstance(String date, double score) {
         PastQuizzesFragment fragment = new PastQuizzesFragment();
-
-        // PROBABLY don't need for now
-//        Bundle args = new Bundle();
-//        args.putString("quizDate", date);
-//        args.putDouble("quizScore", score);
-//        fragment.setArguments(args);
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Don't need because we don't have a "search menu" option
-        // setHasOptionsMenu( true );
-
-        // PROBABLY don't need for now
-//        if (getArguments() != null) {
-//            quizFinalDate = getArguments().getString("quizDate");
-//            quizFinalScore = getArguments().getString("quizScore");
-//        }
     } // onCreate
 
     @Override
@@ -79,37 +58,36 @@ public class PastQuizzesFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager( layoutManager );
 
-        quizList = new ArrayList<QuizQuestion>();
+        quizList = new ArrayList<QuizHistory>();
 
         // Create a JobLeadsData instance, since we will need to save a new JobLead to the dn.
         // Note that even though more activites may create their own instances of the JobLeadsData
         // class, we will be using a single instance of the JobLeadsDBHelper object, since
         // that class is a singleton class.
-        quizData = new QuizData( getActivity() );
+        quizHistoryData = new QuizHistoryData( getActivity() );
 
         // Open that database for reading of the full list of job leads.
         // Note that onResume() hasn't been called yet, so the db open in it
         // was not called yet!
-        quizData.open();
+        quizHistoryData.open();
 
-        // Execute the retrieval of the job leads in an asynchronous way,
+        // Execute the retrieval of the quizzes in an asynchronous way,
         // without blocking the main UI thread.
         new QuizDBReader().execute(); // create an instance of the db reader and call execute method that is in the AsyncTask.java class.
 
     }
 
     // This is an AsyncTask class (it extends AsyncTask) to perform DB reading of job leads, asynchronously.
-    private class QuizDBReader extends AsyncTask<Void, List<QuizQuestion>> {
+    private class QuizDBReader extends AsyncTask<Void, List<QuizHistory>> {
         // This method will run as a background process to read from db.
         // It returns a list of retrieved JobLead objects.
         // It will be automatically invoked by Android, when we call the execute method
         // in the onCreate callback (the job leads review activity is started).
         @Override
-        protected List<QuizQuestion> doInBackground(Void... params ) {
-            List<QuizQuestion> quizList = quizData.retrieveAllQuizQuestions();
+        protected List<QuizHistory> doInBackground(Void... params ) {
+            List<QuizHistory> quizList = quizHistoryData.retrieveHistory();
 
             Log.d( TAG, "QuizDBReader: Quizzes retrieved: " + quizList.size() );
-
             return quizList;
         }
 
@@ -118,25 +96,25 @@ public class PastQuizzesFragment extends Fragment {
         // values for the RecyclerView.
         // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute( List<QuizQuestion> quizList ) {
+        protected void onPostExecute( List<QuizHistory> quizList ) {
             Log.d( TAG, "QuizDBReader: quizList.size(): " + quizList.size() );
             quizList.addAll( quizList );
 
-            // create the RecyclerAdapter and set it for the RecyclerView
+            // create the RecyclerAdapter and set it for the RecyclerView. HOW THE POPULATION OF QUIZZES OCCURS
             recyclerAdapter = new PastQuizzesRecyclerAdapter( getActivity(), quizList );
             recyclerView.setAdapter( recyclerAdapter );
         }
     }
 
     // This is an AsyncTask class (it extends AsyncTask) to perform DB writing of a Quiz, asynchronously.
-    public class QuizDBWriter extends AsyncTask<QuizQuestion, QuizQuestion> {
+    public class QuizDBWriter extends AsyncTask<QuizHistory, QuizHistory> {
 
         // This method will run as a background process to write into db.
         // It will be automatically invoked by Android, when we call the execute method
         // in the onClick listener of the Save button.
         @Override
-        protected QuizQuestion doInBackground(QuizQuestion... quizzes ) {
-            quizData.storeQuizQuestion( quizzes[0] );
+        protected QuizHistory doInBackground(QuizHistory... quizzes ) {
+            quizHistoryData.storeQuizHistory( quizzes[0] );
             return quizzes[0];
         }
 
@@ -145,19 +123,15 @@ public class PastQuizzesFragment extends Fragment {
         // That object will be passed as argument to onPostExecute.
         // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute( QuizQuestion quiz ) {
-            // Update the recycler view to include the new job lead
+        protected void onPostExecute( QuizHistory quiz ) {
+            // Update the recycler view to include the new quiz
             quizList.add( quiz );
-
             // Sync the originalValues list in the recyler adapter to the new updated list (QuizList)
             recyclerAdapter.sync();
-
             // Notify the adapter that an item has been inserted
             recyclerAdapter.notifyItemInserted(quizList.size() - 1 );
-
             // Reposition the view to show to newly added item by smoothly scrolling to it
             recyclerView.smoothScrollToPosition( quizList.size() - 1 );
-
             Log.d( TAG, "Quiz saved: " + quiz );
         }
     }
@@ -167,8 +141,8 @@ public class PastQuizzesFragment extends Fragment {
         super.onResume();
 
         // Open the database
-        if( quizData != null && !quizData.isDBOpen() ) {
-            quizData.open();
+        if( quizHistoryData != null && !quizHistoryData.isDBOpen() ) {
+            quizHistoryData.open();
             Log.d( TAG, "PastQuizzesFragment.onResume(): opening DB" );
         } // if
 
@@ -182,8 +156,8 @@ public class PastQuizzesFragment extends Fragment {
         super.onPause();
 
         // close the database in onPause
-        if( quizData != null ) {
-            quizData.close();
+        if( quizHistoryData != null ) {
+            quizHistoryData.close();
             Log.d( TAG, "PastQuizzesFragment.onPause(): closing DB" );
         } // if
     } // onPause
