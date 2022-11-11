@@ -185,4 +185,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("Start New Quiz Fragment").commit();
     }
+
 } // MainActivity
