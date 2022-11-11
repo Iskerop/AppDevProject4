@@ -70,7 +70,7 @@ public class ViewPagerFragment extends Fragment {
         quizHistoryData = new QuizHistoryData(getActivity());
         quizHistoryData.open();
 
-        // execute retrieval of job leads in an asynchronous way
+        // execute retrieval of quiz questions in an asynchronous way
         new QuizQuestionDBReader().execute();
 
         if (getArguments() != null) {
