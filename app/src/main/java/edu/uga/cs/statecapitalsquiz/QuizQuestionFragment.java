@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import java.time.LocalDateTime;
@@ -38,6 +39,9 @@ public class QuizQuestionFragment extends Fragment {
     public static int numberOfCorrectAnswers;
     private boolean choseCorrectAnswer;
     public int questionNum;
+    private ViewPagerFragment viewPagerFragment;
+    // single instance of quiz history database class
+    private QuizHistoryData quizHistoryData = null;
 
     RadioButton cityOne;
     RadioButton cityTwo;
@@ -86,6 +90,11 @@ public class QuizQuestionFragment extends Fragment {
             // get the question number from the bundle
             questionNum = getArguments().getInt("questionNum");
         }
+        this.viewPagerFragment = (ViewPagerFragment) getParentFragmentManager().findFragmentById(R.id.viewpager);
+
+        // retrieve instance of QuizHistoryData
+        quizHistoryData = new QuizHistoryData(getActivity());
+        quizHistoryData.open();
     } // onCreate
 
     // inflate the quiz question fragment within the view pager
@@ -134,6 +143,9 @@ public class QuizQuestionFragment extends Fragment {
             cityOne.setOnClickListener(onRadioButtonClicked);
             cityTwo.setOnClickListener(onRadioButtonClicked);
             cityThree.setOnClickListener(onRadioButtonClicked);
+
+
+
         } // if
     } // onViewCreated
 
@@ -146,6 +158,7 @@ public class QuizQuestionFragment extends Fragment {
             case R.id.cityOne:
                 if (checked) {
                     selectedAnswer = answerChoices.get(0);
+                    checkAnswer(selectedAnswer);
                     Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
                     t.show();
                     break;
@@ -153,6 +166,7 @@ public class QuizQuestionFragment extends Fragment {
             case R.id.cityTwo:
                 if (checked) {
                     selectedAnswer = answerChoices.get(1);
+                    checkAnswer(selectedAnswer);
                     Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
                     t.show();
                     break;
@@ -160,12 +174,23 @@ public class QuizQuestionFragment extends Fragment {
             case R.id.cityThree:
                 if (checked) {
                     selectedAnswer = answerChoices.get(2);
+                    checkAnswer(selectedAnswer);
                     Toast t = Toast.makeText(getContext(), selectedAnswer, Toast.LENGTH_SHORT);
                     t.show();
                     break;
                 }
         }
     };
+
+    private void checkAnswer(String selectedAnswer) {
+        // retrieve correct answer and compare to selected answer
+        if (selectedAnswer.equals(sixQuestions.get(questionNum).getCapital())) {
+            quizHistoryData.processAnswer(questionNum, true);
+        }
+        else {
+            quizHistoryData.processAnswer(questionNum, false);
+        }
+    }
 
     // THIS IS WHERE WE WILL CHECK USER INPUT OF PRESSING A RADIO BUTTON AND
     // WE WILL RECORD THIS ANSWER AND IF IT IS RIGHT OR WRONG

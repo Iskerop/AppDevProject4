@@ -9,7 +9,7 @@ public class QuizHistory {
     private String fourthQuest;
     private String fifthQuest;
     private String sixthQuest;
-    private String result;
+    private int result;
     private int numAnswered;
 
     // default constructor
@@ -22,11 +22,11 @@ public class QuizHistory {
         this.fourthQuest = null;
         this.fifthQuest = null;
         this.sixthQuest = null;
-        this.result = null;
+        this.result = 0;
         this.numAnswered = 0;
     }
 
-    public QuizHistory(String date, String firstQuest, String secondQuest, String thirdQuest, String fourthQuest, String fifthQuest, String sixthQuest, String result, int numAnswered) {
+    public QuizHistory(String date, String firstQuest, String secondQuest, String thirdQuest, String fourthQuest, String fifthQuest, String sixthQuest, int result, int numAnswered) {
         this.id = -1;
         this.date = date;
         this.firstQuest = firstQuest;
@@ -103,11 +103,11 @@ public class QuizHistory {
         this.sixthQuest = sixthQuest;
     }
 
-    public String getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(int result) {
         this.result = result;
     }
 

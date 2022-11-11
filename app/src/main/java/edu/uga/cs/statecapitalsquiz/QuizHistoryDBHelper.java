@@ -41,7 +41,7 @@ public class QuizHistoryDBHelper extends SQLiteOpenHelper {
                     + QUIZZES_COLUMN_QUEST_FOUR + " TEXT, "
                     + QUIZZES_COLUMN_QUEST_FIVE + " TEXT, "
                     + QUIZZES_COLUMN_QUEST_SIX + " TEXT, "
-                    + QUIZZES_COLUMN_RESULT + " TEXT, "
+                    + QUIZZES_COLUMN_RESULT + " INTEGER, "
                     + QUIZZES_COLUMN_NUM_ANSWERED + " INTEGER"
                     + ")";
 

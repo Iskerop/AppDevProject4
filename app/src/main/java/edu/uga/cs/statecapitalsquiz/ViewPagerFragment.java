@@ -155,7 +155,7 @@ public class ViewPagerFragment extends Fragment {
                     String.valueOf(selectedQuestionList.get(2).getId()),
                     String.valueOf(selectedQuestionList.get(3).getId()),
                     String.valueOf(selectedQuestionList.get(4).getId()),
-                    String.valueOf(selectedQuestionList.get(5).getId()), null, 0);
+                    String.valueOf(selectedQuestionList.get(5).getId()), 0, 0);
 
             new QuizHistoryDBWriter().execute(qh);
         } // onPostExecute
@@ -174,6 +174,11 @@ public class ViewPagerFragment extends Fragment {
         protected void onPostExecute(QuizHistory quizHistory) {
             Log.d("QuizHistoryDBWriter", "onPostExecute: QuizHistory entry created: " + quizHistory);
         }
+    } // QuizHistoryDBWriter
+
+    public void setQuestionAnswer(int questionNum, String ans) {
+        Log.d("ViewPagerFragment", "setQuestionAnswer: " + ans + " num: " + questionNum);
     }
+
 
 } // ViewPagerFragment
