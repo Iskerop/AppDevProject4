@@ -73,8 +73,6 @@ public class PastQuizzesRecyclerAdapter
 
         QuizHistory quiz = values.get( position );
 
-        //Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
-
         holder.quizDate.setText( quiz.getDate() );
         // String.valueOf
         double numberCorrectAnswers = (double) quiz.getResult();
