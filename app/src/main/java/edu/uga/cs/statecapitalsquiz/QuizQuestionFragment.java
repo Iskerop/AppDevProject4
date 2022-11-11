@@ -144,8 +144,6 @@ public class QuizQuestionFragment extends Fragment {
             cityTwo.setOnClickListener(onRadioButtonClicked);
             cityThree.setOnClickListener(onRadioButtonClicked);
 
-
-
         } // if
     } // onViewCreated
 

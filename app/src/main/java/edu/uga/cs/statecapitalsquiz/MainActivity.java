@@ -174,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
     } // onOptionsItemSelected
 
     // use this method in FinalScoreFragment when the button is pressed to display "Past Quizzes Fragment"
-    public void replaceFragment(String dateAndTime, double score) {
+    public void replaceFragment() {
         Fragment fragment = null;
         try {
-            fragment = PastQuizzesFragment.newInstance(dateAndTime, score);
+            fragment = PastQuizzesFragment.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

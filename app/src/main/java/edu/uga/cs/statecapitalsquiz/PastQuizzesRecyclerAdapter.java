@@ -30,16 +30,16 @@ public class PastQuizzesRecyclerAdapter
 
     public PastQuizzesRecyclerAdapter(Context context, List<QuizHistory> quizList ) {
         this.context = context;
-        Collections.sort(quizList, new sortDescendingOrder()); // sort the
+        Collections.sort(quizList, new sortDescendingOrder()); // sort the quizList in descending order
         this.values = quizList;
         this.originalValues = new ArrayList<QuizHistory>( quizList );
     } // PastQuizzesRecyclerAdapter
 
-    // reset the originalValues to the current contents of values
-    public void sync()
-    {
-        originalValues = new ArrayList<QuizHistory>( values );
-    }
+//    // reset the originalValues to the current contents of values
+//    public void sync()
+//    {
+//        originalValues = new ArrayList<QuizHistory>( values );
+//    }
 
     // The adapter must have a ViewHolder class to "hold" one item to show.
     public static class PastQuizzesHolder extends RecyclerView.ViewHolder {
@@ -76,7 +76,12 @@ public class PastQuizzesRecyclerAdapter
         //Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 
         holder.quizDate.setText( quiz.getDate() );
-        holder.quizScore.setText( String.valueOf(quiz.getResult()) );
+        // String.valueOf
+        double numberCorrectAnswers = (double) quiz.getResult();
+        double numberAnswered = (double) quiz.getNumAnswered();
+        double scoreInPercent = numberCorrectAnswers/numberAnswered * 100;
+        String formattedScoreInPercent = String.format("%.2f", scoreInPercent) + "%";
+        holder.quizScore.setText(formattedScoreInPercent);
     }
 
     // returns the total number of items in the data set held by the adapter
